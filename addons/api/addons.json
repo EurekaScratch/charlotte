@@ -1,0 +1,24 @@
+{
+    "name": "API",
+    "description": "Charlotte's Official Addons API",
+    "tags": "official",
+    "enabledByDefault": true,
+    "userscripts": [
+        {
+            "url": "api",
+            "matches": ["all"],
+            "runAtComplete": false
+        },
+        {
+            "url": "trap",
+            "matches": ["all"],
+            "runAtComplete": false
+        }
+    ],
+    "credits": [{
+        "name": "EurekaScratch",
+        "link": "https://github.com/EurekaScratch"
+    }],
+    "dynamicEnable": false,
+    "dynamicDisable": false
+}

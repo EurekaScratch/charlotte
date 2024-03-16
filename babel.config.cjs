@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   presets: [
     ['@babel/preset-env', {
       modules: false,
@@ -7,4 +7,7 @@ export default {
     '@babel/preset-typescript',
     'babel-preset-solid',
   ],
+  plugins: [
+    '@babel/plugin-proposal-import-attributes-to-assertions'
+  ]
 };

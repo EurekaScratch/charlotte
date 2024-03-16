@@ -4,7 +4,7 @@ import userscript from 'rollup-plugin-userscript';
 import pkg from './package.json' assert { type: 'json' };
 
 export default defineConfig(Object.entries({
-  'core': 'src/core/index.ts',
+  'charlotte': 'src/core/index.ts',
 }).map(([name, entry]) => ({
   input: entry,
   plugins: [
