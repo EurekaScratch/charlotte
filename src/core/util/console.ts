@@ -4,7 +4,7 @@ function consoleOutput (prefix: string) {
         right: 'background-color: #8076A3; border-radius: 0 0.5rem 0.5rem 0; padding-right: 0.5rem; padding-left: 0.25rem; margin-right: 0.25rem; color: white;',
         text: '',
     };
-    return [`%c🌠 CLT %c${prefix}%c`, style.left, style.right, style.text];
+    return [`%c🌠 %c${prefix}%c`, style.left, style.right, style.text];
 }
 
 export function createConsole (prefix: string) {

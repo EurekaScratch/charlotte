@@ -9,14 +9,15 @@ fs.readdirSync('addons').forEach(addonId => {
         path.resolve(basePath, 'addons.json'),
         {encoding: 'utf8'}
     ));
-    code += `    ${addonId}: {\n`;
+    code += `    ${JSON.stringify(addonId)}: {\n`;
     code += `       id: ${JSON.stringify(addonId)},\n`;
     code += `       name: ${JSON.stringify(manifest.name)},\n`;
     code += `       description: ${JSON.stringify(manifest.description)},\n`;
+    code += `       required: ${JSON.stringify(manifest.required ?? [])},\n`;
     code += `       enabledByDefault: ${!!manifest.enabledByDefault},\n`;
     code += `       userscripts: [\n`;
     for (const script of manifest.userscripts) {
-        const scriptName = `script_${script.url.replace(/[^\w-]/g, '_')}`;
+        const scriptName = `script_${addonId.replace(/[.-]/g, '_')}_${script.url.replace(/[.-]/g, '_')}`;
         code = `import ${scriptName} from '../addons/${addonId}/${script.url}';\n` + code;
         code += `           {\n`
         code += `               func: ${scriptName},\n`;

@@ -2,6 +2,7 @@
 // @name        Charlotte
 // @namespace   EurekaScratch/Charlotte
 // @description Another Scratch Addons Loader
+// @run-at      document-start
 // @match       https://scratch.mit.edu/*
 // @match       https://aerfaying.com/*
 // @match       https://www.ccw.site/*

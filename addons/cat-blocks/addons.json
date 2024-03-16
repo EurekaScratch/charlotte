@@ -1,0 +1,24 @@
+{
+    "name": "Cat blocks",
+    "description": "Brings back editor cat hat blocks that were first introduced for April Fools' Day 2020.",
+    "tags": "sa-ported",
+    "enabledByDefault": false,
+    "userscripts": [
+        {
+            "url": "userscript",
+            "matches": ["all"],
+            "runAtComplete": false
+        }
+    ],
+    "credits": [
+        {
+            "name": "TheColaber",
+            "link": "https://scratch.mit.edu/users/TheColaber/"
+        }, {
+            "name": "GarboMuffin"
+        }
+    ],
+    "dynamicEnable": false,
+    "dynamicDisable": false,
+    "required": ["api"]
+}
