@@ -54,7 +54,7 @@ function _checkLoadingOrderById (id: string, requireStack: string[], graph: Grap
         if (!globalCtx.addons[dependency]) {
             throw new Error(`unavailable dependency ${dependency} requested by ${id}`);
         }
-        if (_findIdInList(dependency, requireStack) >= 0) {
+        if (_findIdInList(dependency, requireStack) !== -1) {
             throw new Error(`circular requirement ${dependency} requested by ${id}`);
         }
         graph.addEdge(dependency, id);

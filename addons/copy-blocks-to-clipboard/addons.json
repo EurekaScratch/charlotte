@@ -1,0 +1,18 @@
+{
+    "name": "Copy Blocks To Clipboard",
+    "description": "Copy Blocks To Clipboard, Ported from ClipCC (Legacy SSCB)",
+    "enabledByDefault": true,
+    "userscripts": [
+        {
+            "url": "userscript",
+            "matches": ["all"],
+            "runAtComplete": false
+        }
+    ],
+    "credits": [{
+        "name": "Clipteam",
+        "link": "https://github.com/Clipteam"
+    }],
+    "dynamicEnable": false,
+    "dynamicDisable": false
+}
