@@ -1,0 +1,22 @@
+{
+    "name": "Eureka",
+    "description": "Universal Scratch Extensions Loader",
+    "tags": "official",
+    "enabledByDefault": false,
+    "userscripts": [
+        {
+            "url": "userscript",
+            "matches": ["all"],
+            "runAtComplete": false
+        }
+    ],
+    "credits": [
+        {
+            "name": "EurekaScratch",
+            "link": "https://github.com/EurekaScratch/"
+        }
+    ],
+    "dynamicEnable": false,
+    "dynamicDisable": false,
+    "required": ["api"]
+}

@@ -11,6 +11,7 @@
   },
   "scripts": {
     "prepare": "husky install",
+    "eureka:init": "cd ./addons/eureka/eureka && pnpm i && pnpm run build",
     "dev": "node ./scripts/generate-addon-manifest.mjs && rollup -wc",
     "typecheck": "tsc --watch --noEmit",
     "clean": "del-cli dist",
