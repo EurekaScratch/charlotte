@@ -4,7 +4,7 @@ export default async function ({ addon, console }) {
     const vm = await addon.api.getVM();
     const blockly = await addon.api.getBlockly();
     console.log(`Eureka ${version} on Charlotte`);
-    window.eureka = {
+    (window as any).eureka = {
         version,
         registeredExtension: {},
         settings: settings,

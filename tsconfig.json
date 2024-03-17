@@ -20,5 +20,8 @@
   "include": [
     "src/**/*",
     "addons/**/*"
-  ]
+  ],
+  "exclude": [
+    "addons/eureka/eureka/**/*"
+  ],
 }
