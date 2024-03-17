@@ -1,0 +1,188 @@
+/* Preflights are needed for default values of variables */
+@unocss preflights;
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--ui-modal-overlay);
+    z-index: 11726;
+}
+
+.modal * {
+    box-sizing: border-box;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    max-width: 600px;
+    max-height: 800px;
+    outline: none;
+    border: 4px solid var(--ui-white-transparent);
+    padding: 0;
+    border-radius: var(--space);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: var(--text-primary);
+    overflow: hidden;
+    z-index: 11727;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    height: var(--library-header-height);
+    box-sizing: border-box;
+    width: 100%;
+    background-color: var(--charlotte-primary);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+.title {
+    color: white;
+    margin-left: auto;
+}
+
+.body {
+    background: white;
+    height: 100%;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 1.5rem;
+    overflow-y: auto;
+}
+
+.closeButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;  /* Mask the icon animation */
+    background-color: var(--ui-black-transparent);
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    user-select: none;
+    cursor: pointer;
+    transition: all 0.15s ease-out;
+}
+
+.closeButton:hover {
+    transform: scale(1.1, 1.1);
+}
+
+.closeIcon {
+    margin: 0.25rem;
+    user-select: none;
+    transform-origin: 50%;
+    transform: rotate(45deg);
+    width: 12px;
+    height: 12px;
+}
+
+.headerItem {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    text-decoration: none;
+    color: var(--clipcc-on-motion-primary);
+    user-select: none;
+}
+
+.addon {
+    display: flex;
+    align-items: center;
+    border-radius: var(--space);
+    padding: 0.5rem;
+    width: 100%;
+    margin-bottom: var(--space);
+    transition-duration: .2s;
+}
+
+.addon:hover {
+    background-color: var(--ui-black-transparent);
+}
+
+.addon .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+    margin-right: 1rem;
+}
+
+.addon .info .name {
+    font-weight: bold;
+}
+
+.addon .info .description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 12px;
+}
+
+.switch {
+    width: 3rem;
+    height: 1.5rem;
+    border-radius: 1.5rem;
+    border: solid var(--ui-black-transparent) 1px;
+    display: inline-block;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+.switch .true {
+    background-color: var(--charlotte-primary);
+}
+
+.switch .false {
+    background-color: #e6e6e6;
+}
+
+.switch .disabled {
+    background-color: #9c9c9c;
+}
+
+.slider {
+    width: calc(1.5rem - 4 * 1px);
+    min-height: calc(1.5rem - 4 * 1px);
+    border-radius: calc(1.5rem - 4 * 1px);
+    margin: calc((1.5rem - calc(1.5rem - 4 * 1px)) / 2 - 1px);
+    transition: all 0.3s;
+    border: solid var(--ui-black-transparent) 1px;
+    background-color: var(--ui-white);
+}
+
+.slider.true {
+    transform: translateX(calc(3rem - 1.5rem));
+}
+
+.slider.false {
+    transform: translateX(0rem);
+}
+
+.slider.disabled {
+    background-color: #d3d3d3;
+}
+
+.dummyInput {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    margin: 0;
+}

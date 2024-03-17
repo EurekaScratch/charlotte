@@ -8,11 +8,14 @@ dependencies:
   '@babel/runtime':
     specifier: ^7.23.7
     version: 7.24.0
+  classnames:
+    specifier: ^2.5.1
+    version: 2.5.1
   eventemitter3:
     specifier: ^5.0.1
     version: 5.0.1
   solid-js:
-    specifier: ^1.8.7
+    specifier: ^1.8.15
     version: 1.8.15
 
 devDependencies:
@@ -34,6 +37,9 @@ devDependencies:
   '@gera2ld/plaid-rollup':
     specifier: ~2.7.0
     version: 2.7.0(@babel/core@7.24.0)(@gera2ld/plaid@2.7.0)(postcss@8.4.35)
+  '@rollup/plugin-image':
+    specifier: ^3.0.3
+    version: 3.0.3
   '@typescript-eslint/eslint-plugin':
     specifier: ^7.2.0
     version: 7.2.0(@typescript-eslint/parser@7.2.0)(eslint@8.57.0)(typescript@5.4.2)
@@ -67,6 +73,9 @@ devDependencies:
   lint-staged:
     specifier: ^15.2.0
     version: 15.2.2
+  rollup-plugin-serve:
+    specifier: ^1.1.1
+    version: 1.1.1
   rollup-plugin-userscript:
     specifier: ^0.3.0
     version: 0.3.2
@@ -2009,6 +2018,19 @@ packages:
       rollup: 4.13.0
     dev: true
 
+  /@rollup/plugin-image@3.0.3:
+    resolution: {integrity: sha512-qXWQwsXpvD4trSb8PeFPFajp8JLpRtqqOeNYRUKnEQNHm7e5UP7fuSRcbjQAJ7wDZBbnJvSdY5ujNBQd9B1iFg==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      '@rollup/pluginutils': 5.1.0(rollup@4.13.0)
+      mini-svg-data-uri: 1.4.4
+    dev: true
+
   /@rollup/plugin-json@6.1.0(rollup@4.13.0):
     resolution: {integrity: sha512-EGI2te5ENk1coGeADSIwZ7G2Q8CJS2sF120T7jLw4xFw9n7wIOXHo+kIYRAoVpJAN+kmqZSoO3Fp4JtoNF4ReA==}
     engines: {node: '>=14.0.0'}
@@ -3062,6 +3084,10 @@ packages:
     optionalDependencies:
       fsevents: 2.3.3
     dev: true
+
+  /classnames@2.5.1:
+    resolution: {integrity: sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow==}
+    dev: false
 
   /clean-stack@4.2.0:
     resolution: {integrity: sha512-LYv6XPxoyODi36Dp976riBtSY27VmFo+MKqEU9QCCWyTrdEPDog+RWA7xQWHi6Vbp61j5c4cdzzX1NidnwtUWg==}
@@ -4865,6 +4891,12 @@ packages:
       picomatch: 2.3.1
     dev: true
 
+  /mime@2.6.0:
+    resolution: {integrity: sha512-USPkMeET31rOMiarsBNIHZKLGgvKc/LrjofAnBlOttf5ajRvqiRA8QsenbcooctK6d6Ts6aqZXBA+XbkKthiQg==}
+    engines: {node: '>=4.0.0'}
+    hasBin: true
+    dev: true
+
   /mimic-fn@2.1.0:
     resolution: {integrity: sha512-OqbOk5oEQeAZ8WXWydlu9HJjz9WVdEIvamMCcXmuqUYjTknH/sqsWvhQ3vgwKFRR1HpjvNBKQ37nbJgYzGqGcg==}
     engines: {node: '>=6'}
@@ -4878,6 +4910,11 @@ packages:
   /min-indent@1.0.1:
     resolution: {integrity: sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==}
     engines: {node: '>=4'}
+    dev: true
+
+  /mini-svg-data-uri@1.4.4:
+    resolution: {integrity: sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==}
+    hasBin: true
     dev: true
 
   /minimatch@3.1.2:
@@ -5068,6 +5105,11 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       mimic-fn: 4.0.0
+    dev: true
+
+  /opener@1.5.2:
+    resolution: {integrity: sha512-ur5UIdyw5Y7yEj9wLzhqXiy6GZ3Mwx0yGI+5sMn2r0N0v3cKJvUmFH5yPP+WXh9e0xfyzyJX95D8l088DNFj7A==}
+    hasBin: true
     dev: true
 
   /optionator@0.9.3:
@@ -5868,6 +5910,13 @@ packages:
       style-inject: 0.3.0
     transitivePeerDependencies:
       - ts-node
+    dev: true
+
+  /rollup-plugin-serve@1.1.1:
+    resolution: {integrity: sha512-H0VarZRtFR0lfiiC9/P8jzCDvtFf1liOX4oSdIeeYqUCKrmFA7vNiQ0rg2D+TuoP7leaa/LBR8XBts5viF6lnw==}
+    dependencies:
+      mime: 2.6.0
+      opener: 1.5.2
     dev: true
 
   /rollup-plugin-userscript@0.3.2:

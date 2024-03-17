@@ -23,6 +23,30 @@ type ContextMenuCallback = (items: ContextMenuItem[], block: unknown) => Context
 export default async function ({addon, console}) {
     addon.api = {};
 
+    /**
+     *  Get vm instance asynchronously.
+     */
+    addon.api.getVM = function () {
+        if (typeof addon.instances.vm === 'object') {
+            return Promise.resolve(addon.instances.vm);
+        }
+        return new Promise(resolve => {
+            addon.once('API.instance.vm.initialized', () => resolve(addon.instances.vm));
+        });
+    };
+
+    /**
+     *  Get Blockly instance asynchronously.
+     */
+    addon.api.getBlockly = function () {
+        if (typeof addon.instances.Blockly === 'object') {
+            return Promise.resolve(addon.instances.Blockly);
+        }
+        return new Promise(resolve => {
+            addon.once('API.instance.Blockly.initialized', () => resolve(addon.instances.Blockly));
+        });
+    };
+
     let createdAnyBlockContextMenus = false;
     const contextMenuCallbacks: StoredContextMenuCallback[] = [];
     /**

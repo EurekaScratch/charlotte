@@ -1,6 +1,8 @@
-import { defineExternal, definePlugins } from '@gera2ld/plaid-rollup';
+import { definePlugins } from '@gera2ld/plaid-rollup';
 import { defineConfig } from 'rollup';
 import userscript from 'rollup-plugin-userscript';
+import serve from 'rollup-plugin-serve';
+import image from '@rollup/plugin-image';
 import pkg from './package.json' assert { type: 'json' };
 
 export default defineConfig(Object.entries({
@@ -17,24 +19,18 @@ export default defineConfig(Object.entries({
       },
       extensions: ['.ts', '.tsx', '.mjs', '.js', '.jsx'],
     }),
+    image(),
     userscript((meta) => 
         meta.replace('process.env.AUTHOR', pkg.author)
             .replace('process.env.VERSION', pkg.version)
     ),
+    process.env.ROLLUP_WATCH ? serve('dist') : undefined
   ],
-  external: defineExternal([
-    'solid-js',
-    'solid-js/web',
-  ]),
   output: {
     format: 'iife',
     file: `dist/${name}.user.js`,
     banner: `(async () => {`,
     footer: `})();`,
-    globals: {
-      'solid-js': 'await import("https://esm.sh/solid-js")',
-      'solid-js/web': 'await import("https://esm.sh/solid-js/web")'
-    },
     indent: false,
   },
 })));

@@ -13,6 +13,11 @@
             "url": "trap",
             "matches": ["all"],
             "runAtComplete": false
+        },
+        {
+            "url": "redux",
+            "matches": ["all"],
+            "runAtComplete": false
         }
     ],
     "credits": [{

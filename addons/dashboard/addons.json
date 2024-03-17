@@ -1,0 +1,22 @@
+{
+    "name": "Dashboard",
+    "description": "Add entry to open Charlotte's front-end",
+    "tags": "official",
+    "enabledByDefault": true,
+    "userscripts": [
+        {
+            "url": "userscript",
+            "matches": ["all"],
+            "runAtComplete": false
+        }
+    ],
+    "credits": [
+        {
+            "name": "EurekaScratch",
+            "link": "https://github.com/EurekaScratch/"
+        }
+    ],
+    "dynamicEnable": true,
+    "dynamicDisable": true,
+    "required": ["api"]
+}
