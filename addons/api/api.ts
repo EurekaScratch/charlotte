@@ -1,3 +1,5 @@
+import { platformInfo } from '../../src/core/loader/match';
+
 interface BaseContextMenuOptions {
     workspace: boolean;
     blocks: boolean;
@@ -22,6 +24,20 @@ type ContextMenuCallback = (items: ContextMenuItem[], block: unknown) => Context
 
 export default async function ({addon, console}) {
     addon.api = {};
+
+    let cachedResult: keyof typeof platformInfo | 'unknown' | null = null;
+    addon.api.getPlatform = function () {
+        if (cachedResult) return cachedResult;
+        for (const alias in platformInfo) {
+            const platform = platformInfo[alias];
+            if (platform.root.test(document.URL)) {
+                cachedResult = alias as keyof typeof platformInfo;
+                return cachedResult;
+            }
+        }
+        cachedResult = 'unknown';
+        return cachedResult;
+    }
 
     let vmFailed = false;
     /**

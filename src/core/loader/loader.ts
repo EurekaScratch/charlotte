@@ -1,9 +1,12 @@
 import type { GlobalCtx } from './ctx';
+import type { Match } from './match';
+import { isMatchingCurrentURL } from './match';
 import console, { createConsole } from '../util/console';
 import { Graph } from '../util/graph';
 
 export interface Userscript {
     func: (ctx: AddonCtx) => Promise<(() => void) | void>;
+    matches: Match[];
     runAtComplete: boolean;
 }
 
@@ -129,6 +132,8 @@ export async function activate (id: string) {
     // Apply userscripts
     addon.disposers = [];
     for (const script of addon.userscripts) {
+        if (!isMatchingCurrentURL(script.matches)) continue;
+
         const wrappedScript = script.func.bind(
             script, {
                 addon: globalCtx,
