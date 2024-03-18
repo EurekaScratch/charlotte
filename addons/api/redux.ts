@@ -65,10 +65,14 @@ export default async function ({addon, console}) {
         return newerCompose ? newerCompose.apply(this, args) : ReDucks.compose.apply(this, args);
     }
 
-    Object.defineProperty(window, '__REDUX_DEVTOOLS_EXTENSION_COMPOSE__', {
-        get: () => compose,
-        set: (v) => {
-            newerCompose = v;
-        },
-    });
+    try {
+        Object.defineProperty(window, '__REDUX_DEVTOOLS_EXTENSION_COMPOSE__', {
+            get: () => compose,
+            set: (v) => {
+                newerCompose = v;
+            }
+        });
+    } catch (e) {
+        console.error(`failed to capture redux\n`, e);
+    }
 }

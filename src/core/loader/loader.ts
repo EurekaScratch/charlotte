@@ -32,16 +32,27 @@ export function attachCtx (ctx: GlobalCtx) {
 
 export async function activateByOrder (ids: string[]) {
     const graph = new Graph();
+    const requireStack = new Set<string>();
     for (const id of ids) {
-        _checkLoadingOrderById(id, [], graph);
+        _checkLoadingOrderById(id, [], graph, requireStack);
     }
     const orderedIds = graph.topo();
     for (const id of orderedIds) {
-        await activate(id);
+        try {
+            console.log(`activating ${id}`);
+            // Ensure required addons activated ahead
+            if (requireStack.has(id)) {
+                await activate(id);
+            } else {
+                activate(id);
+            }
+        } catch (e) {
+            console.error(`Loader: Error occured while activating ${id}\n`, e);
+        }
     }
 }
 
-function _checkLoadingOrderById (id: string, requireStack: string[], graph: Graph) {
+function _checkLoadingOrderById (id: string, requireStack: string[], graph: Graph, allRequired: Set<string> = new Set()) {
     if (!globalCtx) {
         throw new Error('Loader: globalCtx not attached');
     }
@@ -58,7 +69,8 @@ function _checkLoadingOrderById (id: string, requireStack: string[], graph: Grap
             throw new Error(`circular requirement ${dependency} requested by ${id}`);
         }
         graph.addEdge(dependency, id);
-        _checkLoadingOrderById(dependency, requireStack, graph);
+        allRequired.add(dependency);
+        _checkLoadingOrderById(dependency, requireStack, graph, allRequired);
     }
     requireStack.pop();
 }
@@ -72,7 +84,7 @@ function _findIdInList (id: string, list: string[]) {
     return -1;
 }
 
-export function deactivateByOrder (ids: string[]) {
+export async function deactivateByOrder (ids: string[]) {
     const graph = new Graph();
     for (const id of ids) {
         if (globalCtx.addons[id].enabled) {
@@ -81,7 +93,11 @@ export function deactivateByOrder (ids: string[]) {
     }
     const orderedIds =  graph.topo();
     for (const id of orderedIds) {
-        deactivate(id);
+        try {
+            await deactivate(id);
+        } catch (e) {
+            console.error(`Loader: Error occured while deactivating ${id}\n`, e);
+        }
     }
 }
 
@@ -133,7 +149,7 @@ export async function activate (id: string) {
     console.log(`${addon.name}(id: ${id}) activated!`);
 }
 
-export function deactivate (id: string) {
+export async function deactivate (id: string) {
     if (!globalCtx) {
         throw new Error('Loader: globalCtx not attached');
     }
@@ -145,7 +161,7 @@ export function deactivate (id: string) {
 
     // Execute disposers
     for (const disposer of addon.disposers) {
-        disposer();
+        await disposer();
     }
     // Remove styles
 

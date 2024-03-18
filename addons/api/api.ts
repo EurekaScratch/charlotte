@@ -23,6 +23,7 @@ type ContextMenuCallback = (items: ContextMenuItem[], block: unknown) => Context
 export default async function ({addon, console}) {
     addon.api = {};
 
+    let vmFailed = false;
     /**
      *  Get vm instance asynchronously.
      */
@@ -30,11 +31,19 @@ export default async function ({addon, console}) {
         if (typeof addon.instances.vm === 'object') {
             return Promise.resolve(addon.instances.vm);
         }
-        return new Promise(resolve => {
+        if (vmFailed) {
+            return Promise.reject();
+        }
+        return new Promise((resolve, reject) => {
             addon.once('API.instance.vm.initialized', () => resolve(addon.instances.vm));
+            addon.once('API.instance.vm.error', () => {
+                vmFailed = true;
+                reject();
+            });
         });
     };
 
+    let blocklyFailed = false;
     /**
      *  Get Blockly instance asynchronously.
      */
@@ -42,8 +51,15 @@ export default async function ({addon, console}) {
         if (typeof addon.instances.Blockly === 'object') {
             return Promise.resolve(addon.instances.Blockly);
         }
-        return new Promise(resolve => {
+        if (blocklyFailed) {
+            return Promise.reject();
+        }
+        return new Promise((resolve, reject) => {
             addon.once('API.instance.Blockly.initialized', () => resolve(addon.instances.Blockly));
+            addon.once('API.instance.Blockly.error', () => {
+                blocklyFailed = true;
+                reject();
+            });
         });
     };
 

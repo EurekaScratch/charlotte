@@ -5,17 +5,17 @@
     "enabledByDefault": true,
     "userscripts": [
         {
-            "url": "api",
-            "matches": ["all"],
-            "runAtComplete": false
-        },
-        {
             "url": "trap",
             "matches": ["all"],
             "runAtComplete": false
         },
         {
             "url": "redux",
+            "matches": ["all"],
+            "runAtComplete": false
+        },
+        {
+            "url": "api",
             "matches": ["all"],
             "runAtComplete": false
         }

@@ -13,6 +13,7 @@
         "name": "Clipteam",
         "link": "https://github.com/Clipteam"
     }],
+    "required": ["api"],
     "dynamicEnable": false,
     "dynamicDisable": false
 }

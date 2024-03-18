@@ -1,8 +1,7 @@
-import { version, inject, settings, openFrontend } from './eureka/dist/eureka-charlotte';
+import { version, injectVM, injectBlockly, settings, openFrontend } from './eureka/dist/eureka-charlotte';
 
 export default async function ({ addon, console }) {
     const vm = await addon.api.getVM();
-    const blockly = await addon.api.getBlockly();
     console.log(`Eureka ${version} on Charlotte`);
     (window as any).eureka = {
         version,
@@ -10,5 +9,8 @@ export default async function ({ addon, console }) {
         settings: settings,
         openFrontend: openFrontend.bind(null, open)
     };
-    inject(vm, blockly);
+    injectVM(vm);
+    addon.api.getBlockly().then(blockly => {
+        injectBlockly(blockly);
+    });
 }
