@@ -20,7 +20,7 @@ interface StoredContextMenuCallback extends BaseContextMenuOptions {
     callback: ContextMenuCallback;
 }
 
-type ContextMenuCallback = (items: ContextMenuItem[], block: unknown) => ContextMenuItem[];
+type ContextMenuCallback = (items: ContextMenuItem[], block: unknown, event: unknown) => ContextMenuItem[];
 
 export default async function ({addon, console}) {
     addon.api = {};

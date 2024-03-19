@@ -14,6 +14,8 @@ fs.readdirSync('addons').forEach(addonId => {
     code += `       name: ${JSON.stringify(manifest.name)},\n`;
     code += `       description: ${JSON.stringify(manifest.description)},\n`;
     code += `       required: ${JSON.stringify(manifest.required ?? [])},\n`;
+    code += `       dynamicEnable: ${!!manifest.dynamicEnable},\n`;
+    code += `       dynamicDisable: ${!!manifest.dynamicDisable},\n`;
     code += `       enabledByDefault: ${!!manifest.enabledByDefault},\n`;
     code += `       userscripts: [\n`;
     for (const script of manifest.userscripts) {

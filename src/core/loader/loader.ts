@@ -22,6 +22,8 @@ export interface Addon {
     required: string[];
     enabled?: boolean;
     enabledByDefault: boolean;
+    dynamicEnable: boolean;
+    dynamicDisable: boolean;
     userscripts: Userscript[];
     disposers?: (() => void)[];
 }
@@ -151,6 +153,7 @@ export async function activate (id: string) {
     // Apply styles
 
     addon.enabled = true;
+    globalCtx.emit('core.addon.activated', id);
     console.log(`${addon.name}(id: ${id}) activated!`);
 }
 
@@ -171,6 +174,7 @@ export async function deactivate (id: string) {
     // Remove styles
 
     addon.enabled = false;
+    globalCtx.emit('core.addon.deactivated', id);
     console.log(`${addon.name}(id: ${id}) deactivated!`);
 }
 

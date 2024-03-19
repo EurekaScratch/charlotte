@@ -106,7 +106,7 @@
 .addon {
     display: flex;
     align-items: center;
-    border-radius: var(--space);
+    border-radius: calc(var(--space) / 2);
     padding: 0.5rem;
     width: 100%;
     margin-bottom: var(--space);
@@ -154,7 +154,7 @@
 }
 
 .switch .disabled {
-    background-color: #9c9c9c;
+    background-color: #7c7c7c;
 }
 
 .slider {
@@ -185,4 +185,17 @@
     height: 0;
     opacity: 0;
     margin: 0;
+}
+
+.alert {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    justify-content: flex-start;
+    background: #FFF0DF;
+    border: 1px solid #FF8C1A;
+    border-radius: calc(var(--space) / 2);
+    margin-bottom: var(--space);
+    padding: 1rem;
 }

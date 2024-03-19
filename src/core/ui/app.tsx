@@ -1,3 +1,4 @@
+import type { Addon } from '../loader/loader';
 import { createSignal, Show, For, onMount } from 'solid-js';
 import { render } from 'solid-js/web';
 import console from '../util/console';
@@ -19,6 +20,10 @@ interface SwitchProps {
     value?: boolean;
     disabled?: boolean;
     onChange: (value: boolean) => void;
+}
+
+interface AddonStatus extends Addon {
+    pending?: boolean;
 }
 
 function Switch (props: SwitchProps) {
@@ -53,9 +58,34 @@ function Switch (props: SwitchProps) {
 
 function Modal () {
     const [show, setShow] = createSignal(true);
+    const [refreshRequested, setRefreshRequested] = createSignal(false);
+    const [addons, setAddons] = createSignal<Record<string, AddonStatus>>(Object.assign({}, globalCtx.addons));
+    const activate = (id: string) => {
+        const newAddonStatus = Object.assign({}, addons()[id], {enabled: true, pending: true});
+        setAddons(Object.assign({}, addons(), {[id]: newAddonStatus}));
+        if (addons()[id].dynamicEnable) globalCtx!.loader.activate(id);
+        else setRefreshRequested(true);
+    };
+    const deactivate = (id: string) => {
+        const newAddonStatus = Object.assign({}, addons()[id], {enabled: false, pending: true});
+        setAddons(Object.assign({}, addons(), {[id]: newAddonStatus}));
+        if (addons()[id].dynamicDisable) globalCtx!.loader.deactivate(id);
+        else setRefreshRequested(true);
+    };
     onMount(() => {
         setModalStatus = setShow;
+        // Track addon status
+        globalCtx.on('core.addon.activated', (id: string) => {
+            const newAddonStatus = Object.assign({}, addons()[id], {enabled: true, pending: false});
+            setAddons(Object.assign({}, addons(), {[id]: newAddonStatus}));
+            console.log(addons());
+        });
+        globalCtx.on('core.addon.deactivated', (id: string) => {
+            const newAddonStatus = Object.assign({}, addons()[id], {enabled: false, pending: false});
+            setAddons(Object.assign({}, addons(), {[id]: newAddonStatus}));
+        });
     });
+
     return (
         <Show when={show()}>
             <div
@@ -83,18 +113,23 @@ function Modal () {
                         </div>
                     </div>
                     <div class={styles.body}>
-                        <For each={Object.values(globalCtx!.addons)}>
+                        <Show when={refreshRequested()}>
+                            <span class={styles.alert}>
+                                Some changes require a refresh to take effect.
+                            </span>
+                        </Show>
+                        <For each={Object.values(addons())}>
                             {(addon) => (
                                 <div class={styles.addon}>
                                     <div class={styles.info}>
                                         <span class={styles.name}>{addon.name}</span>
                                         <span class={styles.description}>{addon.description}</span>
                                     </div>
-                                    <Switch value={addon.enabled} onChange={(value: boolean) => {
+                                    <Switch value={addon.enabled} disabled={addon.pending} onChange={(value: boolean) => {
                                         if (value) {
-                                            globalCtx!.loader.activate(addon.id);
+                                            activate(addon.id);
                                         } else {
-                                            globalCtx!.loader.deactivate(addon.id);
+                                            deactivate(addon.id);
                                         }
                                         globalCtx.settings[`${addon.id}.enabled`] = value;
                                     }} />

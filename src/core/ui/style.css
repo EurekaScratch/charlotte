@@ -2,12 +2,12 @@
 /* Note: might conflict with existing styles if not in shadow DOM */
 
 :root {
-    --charlotte-primary: #525288;
+    --charlotte-primary: hsla(215, 100%, 65%, 1);
     --pen-primary: hsla(163, 85%, 40%, 1);
     --pen-transparent: hsla(163, 85%, 40%, 0.25);
     --space: 0.5rem;
     --form-radius: calc(var(--space) / 2);
-    --ui-modal-overlay: hsla(215, 100%, 65%, 0.9);
+    --ui-modal-overlay: hsla(215, 100%, 65%, 0.6);
     --library-header-height: 3.125rem;
     --text-primary: hsla(225, 15%, 40%, 1);
     --ui-white: hsla(0, 100%, 100%, 1); /* #FFFFFF */
@@ -15,5 +15,7 @@
     --ui-transparent: hsla(0, 100%, 100%, 0); /* 25% transparent version of ui-white */
     --ui-white-transparent: hsla(0, 100%, 100%, 0.25);
     --ui-black-transparent: hsla(0, 0%, 0%, 0.15); /* 15% transparent version of black */
+    --error-primary: hsla(30, 100%, 55%, 1); /* #FF8C1A */
+    --error-light: hsla(30, 100%, 70%, 1); /* #FFB366 */
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }

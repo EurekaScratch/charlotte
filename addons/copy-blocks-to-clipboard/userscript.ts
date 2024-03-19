@@ -29,13 +29,14 @@ export default async function ({addon, console}) {
                 callback: () => {
                     navigator.clipboard.readText().then(data => {
                         Blockly.Events.disable();
+                        let newBlock: any = null;
                         try {
                             const xml = Blockly.Xml.textToDom(data);
                             if (xml?.firstChild?.firstChild?.tagName.toLowerCase() === 'parsererror') {
                                 return console.error('invalid xml');
                             }
 
-                            const newBlock = Blockly.Xml.domToBlock(xml.firstChild, ws);
+                            newBlock = Blockly.Xml.domToBlock(xml.firstChild, ws);
 
                             const point = Blockly.utils.mouseToSvg(event, ws.getParentSvg(),  ws.getInverseScreenCTM());
                             const rel = ws.getOriginOffsetInPixels();
