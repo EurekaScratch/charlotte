@@ -62,7 +62,7 @@ export const platformInfo = {
 } as const;
 
 export function isMatchingCurrentURL (matches: Match[]) {
-    // always matched
+    // Always matched
     if (matches.includes('all')) {
         return true;
     }
@@ -84,12 +84,12 @@ export function isMatchingCurrentURL (matches: Match[]) {
             continue;
         }
         for (const scope of match.scopes) {
-        if (!(scope in platformInfo[match.platform])) {
-            console.warn(`Unknown scope alias: ${scope}`);
-        }
-        if (platformInfo[match.platform][scope].test(document.URL)) {
-            return true;
-        }
+            if (!(scope in platformInfo[match.platform])) {
+                console.warn(`Unknown scope alias: ${scope}`);
+            }
+            if (platformInfo[match.platform][scope].test(document.URL)) {
+                return true;
+            }
         }
     }
 }

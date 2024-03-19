@@ -37,7 +37,7 @@ export default async function ({addon, console}) {
         }
         cachedResult = 'unknown';
         return cachedResult;
-    }
+    };
 
     let vmFailed = false;
     /**
@@ -111,7 +111,7 @@ export default async function ({addon, console}) {
                 (comments && gesture.startBubble_);
                 if (injectMenu) {
                     try {
-                        items = callback(items, block);
+                        items = callback(items, block, event);
                     } catch (e) {
                         console.error('Error while calling context menu callback: ', e);
                     }

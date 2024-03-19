@@ -21,7 +21,7 @@ export default async function ({addon, console}) {
     );
     // Paste Option
     addon.api.createBlockContextMenu(
-        (items: ContextMenuItem[]) => {
+        (items: ContextMenuItem[], _: unknown, event: unknown) => {
             const ws = Blockly.getMainWorkspace();
             items.push({
                 enabled: typeof navigator.clipboard === 'object',
@@ -31,7 +31,11 @@ export default async function ({addon, console}) {
                         Blockly.Events.disable();
                         try {
                             const xml = Blockly.Xml.textToDom(data);
-                            var newBlock = Blockly.Xml.domToBlock(xml.firstChild, ws);
+                            if (xml?.firstChild?.firstChild?.tagName.toLowerCase() === 'parsererror') {
+                                return console.error('invalid xml');
+                            }
+
+                            const newBlock = Blockly.Xml.domToBlock(xml.firstChild, ws);
 
                             const point = Blockly.utils.mouseToSvg(event, ws.getParentSvg(),  ws.getInverseScreenCTM());
                             const rel = ws.getOriginOffsetInPixels();
@@ -39,9 +43,11 @@ export default async function ({addon, console}) {
                             const y = (point.y - rel.y) / ws.scale;
 
                             newBlock.moveBy(ws.RTL ? -x : x, y);
+                            // Refresh toolbox to adapting new blocks
+                            ws.refreshToolboxSelection_();
                         } finally {
                             Blockly.Events.enable();
-                            if (Blockly.Events.isEnabled() && newBlock) {
+                            if (Blockly.Events.isEnabled() && typeof newBlock === 'object') {
                                 Blockly.Events.fire(new Blockly.Events.BlockCreate(newBlock));
                             }
                         }
