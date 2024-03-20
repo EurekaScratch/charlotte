@@ -18,14 +18,28 @@ fs.readdirSync('addons').forEach(addonId => {
     code += `       dynamicDisable: ${!!manifest.dynamicDisable},\n`;
     code += `       enabledByDefault: ${!!manifest.enabledByDefault},\n`;
     code += `       userscripts: [\n`;
-    for (const script of manifest.userscripts) {
-        const scriptName = `script_${addonId.replace(/[.-]/g, '_')}_${script.url.replace(/[.-]/g, '_')}`;
-        code = `import ${scriptName} from '../addons/${addonId}/${script.url}';\n` + code;
-        code += `           {\n`
-        code += `               func: ${scriptName},\n`;
-        code += `               matches: ${JSON.stringify(script.matches)},\n`;
-        code += `               runAtComplete: ${!!script.runAtComplete}\n`;
-        code += `           },\n`;
+    if (manifest.userscripts) {
+        for (const script of manifest.userscripts) {
+            const scriptName = `script_${addonId.replace(/[.-]/g, '_')}_${script.url.replace(/[.-]/g, '_')}`;
+            code = `import ${scriptName} from '../addons/${addonId}/${script.url}';\n` + code;
+            code += `           {\n`
+            code += `               func: ${scriptName},\n`;
+            code += `               matches: ${JSON.stringify(script.matches)},\n`;
+            code += `               runAtComplete: ${!!script.runAtComplete}\n`;
+            code += `           },\n`;
+        }
+    }
+    code += `       ],\n`;
+    code += `       userstyles: [\n`;
+    if (manifest.userstyles) {
+        for (const style of manifest.userstyles) {
+            const styleName = `style_${addonId.replace(/[.-]/g, '_')}_${style.url.replace(/[.-]/g, '_')}`;
+            code = `import ${styleName} from '../addons/${addonId}/${style.url}';\n` + code;
+            code += `           {\n`
+            code += `               stylesheet: ${styleName},\n`;
+            code += `               matches: ${JSON.stringify(style.matches)}\n`;
+            code += `           },\n`;
+        }
     }
     code += `       ]\n`;
     code += `    },\n`;

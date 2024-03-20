@@ -39,7 +39,9 @@ export const platformInfo = {
         root: /https:\/\/0832\.ink\/rc\/*/
     },
     cc: {
-        root: /https:\/\/codingclip\.com\/*/
+        root: /https:\/\/codingclip\.com\/*/,
+        editor: /https:\/\/codingclip\.com\/editor\/*/,
+        projects: /https:\/\/codingclip\.com\/project\/*/
     },
     sc: {
         root: /https:\/\/scratch\.mit\.edu\/*/

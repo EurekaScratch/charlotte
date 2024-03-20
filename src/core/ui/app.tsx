@@ -78,7 +78,6 @@ function Modal () {
         globalCtx.on('core.addon.activated', (id: string) => {
             const newAddonStatus = Object.assign({}, addons()[id], {enabled: true, pending: false});
             setAddons(Object.assign({}, addons(), {[id]: newAddonStatus}));
-            console.log(addons());
         });
         globalCtx.on('core.addon.deactivated', (id: string) => {
             const newAddonStatus = Object.assign({}, addons()[id], {enabled: false, pending: false});

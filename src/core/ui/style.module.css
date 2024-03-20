@@ -1,5 +1,5 @@
 /* Preflights are needed for default values of variables */
-@unocss preflights;
+/* @unocss preflights; */
 
 .overlay {
     position: fixed;

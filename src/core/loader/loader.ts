@@ -10,6 +10,16 @@ export interface Userscript {
     runAtComplete: boolean;
 }
 
+export interface Userstyle {
+    stylesheet: string;
+    matches: Match[];
+}
+
+interface DeferredScript {
+    belongs: string;
+    func: () => Promise<(() => void) | void>;
+}
+
 export interface AddonCtx {
     addon: GlobalCtx,
     console: Console
@@ -25,11 +35,13 @@ export interface Addon {
     dynamicEnable: boolean;
     dynamicDisable: boolean;
     userscripts: Userscript[];
+    userstyles: Userstyle[];
     disposers?: (() => void)[];
 }
 
 let globalCtx: GlobalCtx | null = null;
-const deferredScripts: Function[] = [];
+let pageLoaded = false;
+const deferredScripts: DeferredScript[] = [];
 
 export function attachCtx (ctx: GlobalCtx) {
     globalCtx = ctx;
@@ -133,6 +145,7 @@ export async function activate (id: string) {
 
     // Apply userscripts
     addon.disposers = [];
+    let hasDeferredScripts = false;
     for (const script of addon.userscripts) {
         if (!isMatchingCurrentURL(script.matches)) continue;
 
@@ -141,8 +154,12 @@ export async function activate (id: string) {
                 addon: globalCtx,
                 console: createConsole(addon.name)
             });
-        if (script.runAtComplete) {
-            deferredScripts.push(wrappedScript);
+        if (script.runAtComplete && !pageLoaded) {
+            hasDeferredScripts = true;
+            deferredScripts.push({
+                belongs: id,
+                func: wrappedScript
+            });
             continue;
         }
         const disposer = await wrappedScript();
@@ -150,11 +167,23 @@ export async function activate (id: string) {
             addon.disposers.push(disposer);
         }
     }
-    // Apply styles
 
-    addon.enabled = true;
-    globalCtx.emit('core.addon.activated', id);
-    console.log(`${addon.name}(id: ${id}) activated!`);
+    // Apply styles
+    if (addon.userstyles.length > 0) {
+        const styleElement = document.createElement('style');
+        styleElement.id = `charlotte-addon-styles-${id}`;
+        for (const style of addon.userstyles) {
+            if (!isMatchingCurrentURL(style.matches)) continue;
+            styleElement.innerHTML += `${style.stylesheet}\n`;
+        }
+        document.body.append(styleElement);
+    }
+
+    if (!hasDeferredScripts) {
+        addon.enabled = true;
+        globalCtx.emit('core.addon.activated', id);
+        console.log(`${addon.name}(id: ${id}) activated!`);
+    }
 }
 
 export async function deactivate (id: string) {
@@ -171,7 +200,14 @@ export async function deactivate (id: string) {
     for (const disposer of addon.disposers) {
         await disposer();
     }
+
     // Remove styles
+    if (addon.userstyles.length > 0) {
+        const styleElem = document.querySelector(`#charlotte-addon-styles-${id}`);
+        if (styleElem) {
+            styleElem.remove();
+        }
+    }
 
     addon.enabled = false;
     globalCtx.emit('core.addon.deactivated', id);
@@ -183,13 +219,26 @@ async function loadScriptAtComplete () {
         throw new Error('Loader: globalCtx not attached');
     }
 
+    const activatedAddons = new Set<string>();
     if (deferredScripts.length > 0) {
         for (const script of deferredScripts) {
-            await script();
+            const addon = globalCtx.addons[script.belongs];
+            const disposer = await script.func();
+            if (typeof disposer === 'function') {
+                addon.disposers.push(disposer);
+            }
+            activatedAddons.add(script.belongs);
         }
-        console.log(`deferred userscripts loaded`);
+
+        for (const id of activatedAddons) {
+            const addon = globalCtx.addons[id];
+            addon.enabled = true;
+            globalCtx.emit('core.addon.activated', id);
+            console.log(`${addon.name}(id: ${id}) activated!`);
+        }
     }
 
+    pageLoaded = true;
     window.removeEventListener('load', loadScriptAtComplete);
 }
 
