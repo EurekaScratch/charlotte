@@ -12,6 +12,7 @@
   "scripts": {
     "prepare": "husky install",
     "eureka:init": "cd ./addons/eureka/eureka && pnpm i && pnpm run build",
+    "l10n:extract": "formatjs extract 'src/core/**/*.ts*' ,'addons/**/*.ts*' --out-file locales/en.json --format simple",
     "dev": "node ./scripts/generate-addon-manifest.mjs && rollup -wc",
     "typecheck": "tsc --watch --noEmit",
     "clean": "del-cli dist",
@@ -22,6 +23,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.23.7",
+    "@formatjs/intl": "^2.10.0",
     "classnames": "^2.5.1",
     "eventemitter3": "^5.0.1",
     "solid-js": "^1.8.15"
@@ -31,12 +33,14 @@
     "@babel/plugin-transform-react-jsx": "^7.23.4",
     "@babel/preset-typescript": "^7.23.3",
     "@commitlint/cli": "^19.2.0",
+    "@formatjs/cli": "^6.2.7",
     "@gera2ld/plaid": "~2.7.0",
     "@gera2ld/plaid-rollup": "~2.7.0",
     "@rollup/plugin-image": "^3.0.3",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
     "@unocss/postcss": "^0.58.3",
+    "babel-plugin-formatjs": "^10.5.13",
     "babel-preset-solid": "^1.8.6",
     "commitlint-config-gitmoji": "^2.3.1",
     "cross-env": "^7.0.3",

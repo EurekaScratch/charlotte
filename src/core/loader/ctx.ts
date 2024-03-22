@@ -4,7 +4,7 @@ import type { Settings } from '../util/settings';
 import addons from '../../addons';
 import * as loader from '../loader/loader';
 import * as app from '../ui/app';
-import { settings } from '../util/settings';
+import { attachCtx, settings } from '../util/settings';
 
 class Ctx extends EventEmitter {
     version: string;
@@ -16,6 +16,11 @@ class Ctx extends EventEmitter {
     constructor (version: string) {
         super();
         this.version = version;
+        attachCtx(this);
+    }
+
+    getLocale () {
+        return settings.locale ?? 'en';
     }
 }
 

@@ -1,8 +1,10 @@
 import type { GlobalCtx } from './ctx';
 import type { Match } from './match';
+import getIntl from '../util/l10n';
 import { isMatchingCurrentURL } from './match';
 import console, { createConsole } from '../util/console';
 import { Graph } from '../util/graph';
+import EventEmitter from 'eventemitter3';
 
 export interface Userscript {
     func: (ctx: AddonCtx) => Promise<(() => void) | void>;
@@ -21,9 +23,53 @@ interface DeferredScript {
 }
 
 export interface AddonCtx {
-    addon: GlobalCtx,
-    console: Console
+    addon: GlobalCtx;
+    console: Console;
+    intl: typeof intl;
+    settings: AddonSettings;
 }
+
+interface AddonSettingBoolean {
+    name: string;
+    type: 'boolean';
+    default: boolean;
+}
+
+interface AddonSettingInt {
+    name: string;
+    type: 'integer' | 'positive_integer';
+    default: number;
+    min?: number;
+    max?: number;
+}
+
+interface AddonSettingString {
+    name: string;
+    type: 'string';
+    default: string;
+}
+
+interface AddonSettingColor {
+    name: string;
+    type: 'color';
+    default: `#${string}`;
+    allowTransparency?: boolean;
+}
+
+interface AddonSelectorItem {
+    id: string;
+    name: string;
+    value: string;
+}
+
+interface AddonSettingSelect {
+    name: string;
+    type: 'select';
+    default: string;
+    items: AddonSelectorItem[];
+}
+
+type AddonSetting = AddonSettingBoolean | AddonSettingSelect | AddonSettingColor | AddonSettingString | AddonSettingString;
 
 export interface Addon {
     id: string;
@@ -36,15 +82,45 @@ export interface Addon {
     dynamicDisable: boolean;
     userscripts: Userscript[];
     userstyles: Userstyle[];
+    settings: Record<string, AddonSetting>;
     disposers?: (() => void)[];
 }
 
+const intl = getIntl();
 let globalCtx: GlobalCtx | null = null;
 let pageLoaded = false;
 const deferredScripts: DeferredScript[] = [];
 
 export function attachCtx (ctx: GlobalCtx) {
     globalCtx = ctx;
+}
+
+class AddonSettings extends EventEmitter {
+    id: string;
+    constructor (addonId: string) {
+        super();
+        this.id = addonId;
+        globalCtx!.on('core.settings.changed', this.#filter);
+    }
+
+    #filter (name: string, value: string) {
+        if (name.startsWith(`@${this.id}/`)) {
+            this.emit('change', name.slice(`@${this.id}/`.length - 1), value);
+        }
+    }
+
+    get (name: string) {
+        return globalCtx!.settings[`@${this.id}/${name}`]
+            ?? globalCtx!.addons[this.id].settings[name].default;
+    }
+
+    dispose () {
+        globalCtx!.off('core.settings.changed', this.#filter);
+    }
+}
+
+function wrapAddonSettings (id: string) {
+    return new AddonSettings(id);
 }
 
 export async function activateByOrder (ids: string[]) {
@@ -144,7 +220,11 @@ export async function activate (id: string) {
     }
 
     // Apply userscripts
+    const addonSettings = wrapAddonSettings(id);
     addon.disposers = [];
+    addon.disposers.push(() => {
+        addonSettings.dispose();
+    });
     let hasDeferredScripts = false;
     for (const script of addon.userscripts) {
         if (!isMatchingCurrentURL(script.matches)) continue;
@@ -152,7 +232,9 @@ export async function activate (id: string) {
         const wrappedScript = script.func.bind(
             script, {
                 addon: globalCtx,
-                console: createConsole(addon.name)
+                console: createConsole(addon.name),
+                intl: intl,
+                settings: addonSettings
             });
         if (script.runAtComplete && !pageLoaded) {
             hasDeferredScripts = true;

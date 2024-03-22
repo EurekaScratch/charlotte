@@ -98,10 +98,10 @@ function Modal () {
                         <span class={styles.title}>Charlotte</span>
                         <div class={styles.headerItem}>
                             <div
-                                aria-label="Close"
+                                aria-label='Close'
                                 class={styles.closeButton}
-                                role="button"
-                                tabIndex="0"
+                                role='button'
+                                tabIndex='0'
                                 onClick={() => setShow(false)}
                             >
                                 <img
@@ -130,7 +130,7 @@ function Modal () {
                                         } else {
                                             deactivate(addon.id);
                                         }
-                                        globalCtx.settings[`${addon.id}.enabled`] = value;
+                                        globalCtx.settings[`@${addon.id}/enabled`] = value;
                                     }} />
                                 </div>
                             )}

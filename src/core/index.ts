@@ -1,17 +1,24 @@
 import './meta.js?userscript-metadata';
 import console from './util/console';
+import getIntl, { setup } from './util/l10n';
 import { createCtx } from './loader/ctx';
-import { version } from '../../package.json' with { type: 'json' };
+import { version } from '../../package.json';
 
 console.log(`Charlotte ${version}`);
 
 const globalCtx = createCtx(version);
-console.log(`Loading addons...`);
+setup(globalCtx);
+
+const intl = getIntl();
+console.log(intl.formatMessage({
+    id: 'core.loadingAddon',
+    defaultMessage: 'Loading addons...'
+}));
 
 const ids: string[] = [];
 globalCtx.loader.attachCtx(globalCtx);
 for (const addonId in globalCtx.addons) {
-    if (globalCtx.settings[`${addonId}.enabled`]) {
+    if (globalCtx.settings[`@${addonId}/enabled`]) {
         ids.push(addonId);
     } else if (globalCtx.addons[addonId].enabledByDefault) {
         ids.push(addonId);

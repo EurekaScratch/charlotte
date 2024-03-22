@@ -41,7 +41,8 @@ fs.readdirSync('addons').forEach(addonId => {
             code += `           },\n`;
         }
     }
-    code += `       ]\n`;
+    code += `       ],\n`;
+    code += `       settings: ${JSON.stringify(manifest.settings ?? {})}\n`;
     code += `    },\n`;
 });
 

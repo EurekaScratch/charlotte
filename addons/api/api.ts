@@ -25,6 +25,15 @@ type ContextMenuCallback = (items: ContextMenuItem[], block: unknown, event: unk
 export default async function ({addon, console}) {
     addon.api = {};
 
+    const originalGetLocale = addon.getLocale;
+    addon.getLocale = function () {
+        const vm = addon.instances.vm;
+        if (vm) {
+            return vm.getLocale.call(vm) ?? originalGetLocale.call(this);
+        }
+        return originalGetLocale.call(this);
+    };
+
     let cachedResult: keyof typeof platformInfo | 'unknown' | null = null;
     addon.api.getPlatform = function () {
         if (cachedResult) return cachedResult;
@@ -91,9 +100,12 @@ export default async function ({addon, console}) {
         contextMenuCallbacks.push({ callback, workspace, blocks, flyout, comments });
 
         if (createdAnyBlockContextMenus) return;
+        const ScratchBlocks = addon.instances.Blockly;
+        if (!ScratchBlocks?.ContextMenu) {
+            return console.error('Blockly not ready');
+        }
         createdAnyBlockContextMenus = true;
 
-        const ScratchBlocks = addon.instances.Blockly;
         const oldShow = ScratchBlocks.ContextMenu.show;
         ScratchBlocks.ContextMenu.show = function (event: any, items: ContextMenuItem[], rtl: boolean) {
             const gesture = ScratchBlocks.mainWorkspace.currentGesture_;

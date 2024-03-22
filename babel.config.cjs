@@ -8,6 +8,13 @@ module.exports = {
     'babel-preset-solid',
   ],
   plugins: [
-    '@babel/plugin-proposal-import-attributes-to-assertions'
-  ]
+    '@babel/plugin-proposal-import-attributes-to-assertions',
+    [
+      'formatjs',
+      {
+        idInterpolationPattern: '[sha512:contenthash:base64:6]',
+        ast: true
+      }
+    ]
+    ]
 };
