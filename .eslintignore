@@ -1,5 +1,7 @@
 /*
 !/src
 !/addons
+!/docs/.vitepress
+!/scripts
 !/test
 /addons/eureka/eureka

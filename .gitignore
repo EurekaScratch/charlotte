@@ -2,6 +2,9 @@ node_modules
 *.log
 /.idea
 /dist
+/docs/doc
+/docs/.vitepress/dist
+/docs/.vitepress/cache
 /.nyc_output
 /coverage
 /types

@@ -1,4 +1,62 @@
+import type { GlobalCtx } from '../../src/core/loader/ctx';
 import { platformInfo } from '../../src/core/loader/match';
+
+export interface CtxWithAPI extends GlobalCtx {
+    api: CharlotteAPI,
+    instances: {
+        vm?: unknown // @todo: add type declaration
+        blockly?: unknown // @todo: add type declaration
+    }
+}
+
+export interface CharlotteAPI {
+    /**
+     * Get current platform.
+     * @returns platform alias, such as `cc`, `cocrea`
+     */
+    getPlatform (): string;
+    /**
+     * Get Scratch's VM instance asynchronously.
+     * @returns a promise that returns VM instance
+     */
+    getVM (): Promise<unknown>;
+    /**
+     * Get Scratch's Blockly instance asynchronously.
+     * This won't available if you're in project page.
+     * @returns a promise that returns Blockly instance
+     */
+    getBlockly (): Promise<unknown>;
+    /**
+     * Creates an item in the editor Blockly context menu by callback.
+     * Available only when Blockly exists.
+     * @param callback A function to modify context menu.
+     * @param options Specify the callback's scope.
+     * @example
+     * Here's a example to modify context menu in Blockly:
+     * ```ts
+     * addon.api.createBlockContextMenu((items: ContextMenuItem[], block: Blockly.Block, event: Blockly.Event) => {
+     *     items.push({
+     *         {
+     *             enabled: true, // Whether the option is available
+     *             text: '🌠 Meteor shower begins', // The display text of the option
+     *             callback: () => console.log('🌠🌠🌠🌠'), // Triggers when option clicked
+     *             separator: false // Whether displays a separator at the bottom of current option
+     *         }
+     *     });
+     * }, {blocks: true}); // Only display in block's context menu
+     * ```
+     */
+    createBlockContextMenu (callback: ContextMenuCallback, options: ContextMenuOptions);
+    /**
+     * Escape a string to be safe to use in XML content.
+     * CC-BY-SA: hgoebl
+     * https://stackoverflow.com/questions/7918868/
+     * how-to-escape-xml-entities-in-javascript
+     * @param unsafe Unsafe string.
+     * @return XML-escaped string, for use within an XML tag.
+     */
+    xmlEscape (unsafe: string): string;
+}
 
 interface BaseContextMenuOptions {
     workspace: boolean;
@@ -35,7 +93,7 @@ export default async function ({addon, console}) {
     };
 
     let cachedResult: keyof typeof platformInfo | 'unknown' | null = null;
-    addon.api.getPlatform = function () {
+    function getPlatform () {
         if (cachedResult) return cachedResult;
         for (const alias in platformInfo) {
             const platform = platformInfo[alias];
@@ -46,13 +104,10 @@ export default async function ({addon, console}) {
         }
         cachedResult = 'unknown';
         return cachedResult;
-    };
+    }
 
     let vmFailed = false;
-    /**
-     *  Get vm instance asynchronously.
-     */
-    addon.api.getVM = function () {
+    function getVM () {
         if (typeof addon.instances.vm === 'object') {
             return Promise.resolve(addon.instances.vm);
         }
@@ -66,13 +121,10 @@ export default async function ({addon, console}) {
                 reject();
             });
         });
-    };
+    }
 
     let blocklyFailed = false;
-    /**
-     *  Get Blockly instance asynchronously.
-     */
-    addon.api.getBlockly = function () {
+    function getBlockly () {
         if (typeof addon.instances.Blockly === 'object') {
             return Promise.resolve(addon.instances.Blockly);
         }
@@ -86,14 +138,11 @@ export default async function ({addon, console}) {
                 reject();
             });
         });
-    };
+    }
 
     let createdAnyBlockContextMenus = false;
     const contextMenuCallbacks: StoredContextMenuCallback[] = [];
-    /**
-     * Creates an item in the editor Blockly context menu.
-     */
-    addon.api.createBlockContextMenu = function (
+    function createBlockContextMenu (
         callback: ContextMenuCallback,
         { workspace = false, blocks = false, flyout = false, comments = false }: ContextMenuOptions = {}
     ) {
@@ -141,9 +190,9 @@ export default async function ({addon, console}) {
                 }
             });
         };
-    };
+    }
 
-    addon.api.xmlEscape = function (unsafe: string) {
+    function xmlEscape (unsafe: string) {
         return unsafe.replace(/[<>&'"]/g, (c: string) => {
             switch (c) {
                 case '<': return '&lt;';
@@ -154,5 +203,13 @@ export default async function ({addon, console}) {
             }
             return '';
         });
-    };
+    }
+
+    addon.api = {
+        getPlatform,
+        getVM,
+        getBlockly,
+        createBlockContextMenu,
+        xmlEscape
+    } satisfies CharlotteAPI;
 }

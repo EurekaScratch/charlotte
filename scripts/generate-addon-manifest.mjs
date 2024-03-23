@@ -22,7 +22,7 @@ fs.readdirSync('addons').forEach(addonId => {
         for (const script of manifest.userscripts) {
             const scriptName = `script_${addonId.replace(/[.-]/g, '_')}_${script.url.replace(/[.-]/g, '_')}`;
             code = `import ${scriptName} from '../addons/${addonId}/${script.url}';\n` + code;
-            code += `           {\n`
+            code += `           {\n`;
             code += `               func: ${scriptName},\n`;
             code += `               matches: ${JSON.stringify(script.matches)},\n`;
             code += `               runAtComplete: ${!!script.runAtComplete}\n`;
@@ -35,7 +35,7 @@ fs.readdirSync('addons').forEach(addonId => {
         for (const style of manifest.userstyles) {
             const styleName = `style_${addonId.replace(/[.-]/g, '_')}_${style.url.replace(/[.-]/g, '_')}`;
             code = `import ${styleName} from '../addons/${addonId}/${style.url}';\n` + code;
-            code += `           {\n`
+            code += `           {\n`;
             code += `               stylesheet: ${styleName},\n`;
             code += `               matches: ${JSON.stringify(style.matches)}\n`;
             code += `           },\n`;
