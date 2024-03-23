@@ -1,6 +1,6 @@
 import type { GlobalCtx } from './ctx';
 import type { Match } from './match';
-import getIntl from '../util/l10n';
+import intl from '../util/l10n';
 import { isMatchingCurrentURL } from './match';
 import console, { createConsole } from '../util/console';
 import { Graph } from '../util/graph';
@@ -8,13 +8,13 @@ import EventEmitter from 'eventemitter3';
 
 export interface Userscript {
     func: (ctx: AddonCtx) => Promise<(() => void) | void>;
-    matches: Match[];
+    matches: readonly Match[];
     runAtComplete: boolean;
 }
 
 export interface Userstyle {
     stylesheet: string;
-    matches: Match[];
+    matches: readonly Match[];
 }
 
 interface DeferredScript {
@@ -75,18 +75,17 @@ export interface Addon {
     id: string;
     name: string;
     description: string;
-    required: string[];
-    enabled?: boolean;
+    required: readonly string[];
     enabledByDefault: boolean;
     dynamicEnable: boolean;
     dynamicDisable: boolean;
-    userscripts: Userscript[];
-    userstyles: Userstyle[];
+    userscripts: readonly Userscript[];
+    userstyles: readonly Userstyle[];
     settings: Record<string, AddonSetting>;
+    enabled?: boolean;
     disposers?: (() => void)[];
 }
 
-const intl = getIntl();
 let globalCtx: GlobalCtx | null = null;
 let pageLoaded = false;
 const deferredScripts: DeferredScript[] = [];

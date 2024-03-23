@@ -24,7 +24,6 @@
         "block-scoped-var": "error",
         "capitalized-comments": "warn",
         "eqeqeq": "error",
-        "multiline-comment-style": ["error", "starred-block"],
         "no-confusing-arrow": ["error"],
         "no-else-return": "error",
         "no-lonely-if": "error",

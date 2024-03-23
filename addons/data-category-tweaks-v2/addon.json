@@ -1,0 +1,38 @@
+{
+  "name": "Data category tweaks",
+  "description": "Provides tweaks for the Data (\"Variables\") block category.",
+  "credits": [
+    {
+      "name": "GarboMuffin"
+    }
+  ],
+  "dynamicEnable": true,
+  "dynamicDisable": false,
+  "userscripts": [
+    {
+      "url": "userscript",
+      "matches": ["cocrea", "acamp", "xmw", "cc"],
+      "runAtComplete": false
+    }
+  ],
+  "settings": {
+    "separateListCategory": {
+      "name": "Separate List Category",
+      "type": "boolean",
+      "default": true
+    },
+    "separateLocalVariables": {
+      "name": "Separate Sprite-only Variables",
+      "type": "boolean",
+      "default": false
+    },
+    "moveReportersDown": {
+      "name": "Move data blocks above variables list",
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "tags": ["sa-ported", "editor", "codeEditor", "recommended"],
+  "enabledByDefault": false,
+  "required": ["api"]
+}

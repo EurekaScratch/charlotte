@@ -1,6 +1,6 @@
 import './meta.js?userscript-metadata';
 import console from './util/console';
-import getIntl, { setup } from './util/l10n';
+import intl, { setup } from './util/l10n';
 import { createCtx } from './loader/ctx';
 import { version } from '../../package.json';
 
@@ -9,9 +9,8 @@ console.log(`Charlotte ${version}`);
 const globalCtx = createCtx(version);
 setup(globalCtx);
 
-const intl = getIntl();
 console.log(intl.formatMessage({
-    id: 'core.loadingAddon',
+    id: '@core/loadingAddon',
     defaultMessage: 'Loading addons...'
 }));
 

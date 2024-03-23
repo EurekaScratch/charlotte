@@ -7,7 +7,7 @@
         {
             "url": "userscript",
             "matches": ["all"],
-            "runAtComplete": false
+            "runAtComplete": true
         }
     ],
     "credits": [

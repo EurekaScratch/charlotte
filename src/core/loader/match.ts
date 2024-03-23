@@ -63,7 +63,7 @@ export const platformInfo = {
     }
 } as const;
 
-export function isMatchingCurrentURL (matches: Match[]) {
+export function isMatchingCurrentURL (matches: readonly Match[]) {
     // Always matched
     if (matches.includes('all')) {
         return true;

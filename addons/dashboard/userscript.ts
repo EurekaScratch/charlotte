@@ -5,20 +5,17 @@
 
 export default async function ({ addon, console }) {
     const Blockly = await addon.api.getBlockly();
-    const originalProcedureCallback = Blockly.getMainWorkspace()?.toolboxCategoryCallbacks_?.PROCEDURE;
-    if (!originalProcedureCallback) {
-        return console.error('Procedure callback not found');
+    const originalAddCreateButton_ = Blockly.Procedures.addCreateButton_;
+    if (!originalAddCreateButton_) {
+        return console.error('addCreateButton_ not found');
     }
 
-    Blockly.getMainWorkspace().toolboxCategoryCallbacks_.PROCEDURE = function (
+    Blockly.Procedures.addCreateButton_ = function (
         workspace: any,
+        xmlList: HTMLElement[],
         ...args: unknown[]
     ) {
-        const xmlList = originalProcedureCallback.call(
-            this,
-            workspace,
-            ...args
-        ) as HTMLElement[];
+        originalAddCreateButton_.call(this, workspace, xmlList, ...args);
         // Add separator and label
         const sep = document.createElement('sep');
         sep.setAttribute('gap', '36');
@@ -42,7 +39,7 @@ export default async function ({ addon, console }) {
     workspace.toolboxRefreshEnabled_ = true;
 
     return () => {
-        Blockly.getMainWorkspace().toolboxCategoryCallbacks_.PROCEDURE = originalProcedureCallback;
+        Blockly.Procedures.addCreateButton_ = originalAddCreateButton_;
         const workspace = Blockly.getMainWorkspace();
         workspace.getToolbox().refreshSelection();
         workspace.toolboxRefreshEnabled_ = true;

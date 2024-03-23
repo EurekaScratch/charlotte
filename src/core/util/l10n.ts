@@ -5,26 +5,32 @@ import en from '../../../locales/en.json';
 
 const cache = createIntlCache();
 const messages = { en };
-let intl: IntlShape | null = null;
+const intlHost: { intl?: IntlShape } = {};
 
 export function setup (ctx: GlobalCtx) {
-    intl = createIntl({
+    intlHost.intl = createIntl({
         locale: ctx.getLocale(),
         messages: messages[ctx.getLocale()]
-    });
+    }, cache);
 
     ctx.on('core.settings.changed', (name: string) => {
         if (name !== 'locale') return;
 
-        intl = createIntl({
+        intlHost.intl = createIntl({
             locale: ctx.getLocale(),
             messages: messages[ctx.getLocale()]
-        });
+        }, cache);
     });
 }
 
-function getIntl () {
-    return intl;
-}
+// Use proxy because intl will be created lazily but ESM exports it statically
+const proxiedIntl = new Proxy(intlHost, {
+    get (target, prop, receiver) {
+        if (!target.intl) {
+            throw new Error('intl not ready');
+        }
+        return Reflect.get(target.intl, prop, receiver);
+    }
+});
 
-export default getIntl as IntlShape;
+export default proxiedIntl as IntlShape;

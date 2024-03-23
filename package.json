@@ -12,7 +12,7 @@
   "scripts": {
     "prepare": "husky install",
     "eureka:init": "cd ./addons/eureka/eureka && pnpm i && pnpm run build",
-    "l10n:extract": "formatjs extract 'src/core/**/*.ts*' ,'addons/**/*.ts*' --out-file locales/en.json --format simple",
+    "l10n:extract": "formatjs extract 'src/core/**/*.ts*' 'addons/*/*.ts*' --out-file locales/en.json --ignore='**/*.d.ts' --format simple",
     "dev": "node ./scripts/generate-addon-manifest.mjs && rollup -wc",
     "typecheck": "tsc --watch --noEmit",
     "clean": "del-cli dist",
