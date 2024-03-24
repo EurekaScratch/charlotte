@@ -87,6 +87,12 @@ export interface CharlotteAPI {
      * addon.api.appendToSharedSpace(button, 'afterSoundTab');
      */
     appendToSharedSpace (element: HTMLElement, space: SharedSpace, order?: number): void;
+    /**
+     * Get hashed className from unhashed className.
+     * @param possibleClassNames all possible classNames
+     * @returns hashed className
+     */
+    hashedScratchClass (...possibleClassNames: string[]): string;
 }
 
 export type SharedSpace = 'stageHeader' | 'fullscreenStageHeader' | 'afterGreenFlag' | 'afterStopButton' | 'afterSoundTab';
@@ -367,6 +373,59 @@ export default async function ({addon, console}) {
         return true;
     }
 
+    let scratchClsssNamesCache: string[] | null = null;
+    function lookupScratchClassNames () {
+        scratchClsssNamesCache = [
+            ...new Set(
+                [...document.styleSheets]
+                    .filter(
+                        (styleSheet) =>
+                            !(
+                                styleSheet.ownerNode.textContent.startsWith(
+                                    '/* DO NOT EDIT\n@todo This file is copied from GUI and should be pulled out into a shared library.'
+                                ) &&
+                                    (styleSheet.ownerNode.textContent.includes('input_input-form') ||
+                                    styleSheet.ownerNode.textContent.includes('label_input-group_'))
+                            )
+                    )
+                    .map((e) => {
+                        try {
+                            return [...e.cssRules];
+                        } catch (e) {
+                            return [];
+                        }
+                    })
+                    .flat()
+                    .map((e: CSSStyleRule) => e.selectorText)
+                    .filter((e) => e)
+                    .map((e) => e.match(/(([\w-]+?)_([\w-]+)_([\w\d-]+))/g))
+                    .filter((e) => e)
+                    .flat()
+            ),
+        ];
+    }
+
+    function hashedScratchClass (...possibleClassNames: string[]) {
+        let res = '';
+        possibleClassNames
+            .forEach((classNameToFind) => {
+                if (!scratchClsssNamesCache) {
+                    lookupScratchClassNames();
+                }
+
+                res +=
+            scratchClsssNamesCache.find(
+                (className) =>
+                    className.startsWith(classNameToFind + '_') && className.length === classNameToFind.length + 6
+            ) || '';
+                res += ' ';
+            });
+        res = res.slice(0, -1);
+        // Sanitize just in case
+        res = res.replace(/"/g, '');
+        return res;
+    }
+
     function xmlEscape (unsafe: string) {
         return unsafe.replace(/[<>&'"]/g, (c: string) => {
             switch (c) {
@@ -406,6 +465,7 @@ export default async function ({addon, console}) {
         pendingReduxState,
         waitForElementRender,
         appendToSharedSpace,
+        hashedScratchClass,
         xmlEscape
     } satisfies CharlotteAPI;
 }

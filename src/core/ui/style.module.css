@@ -119,10 +119,11 @@
 
 .addon .info {
     display: flex;
+    max-width: 80%;
     flex-direction: column;
     justify-content: center;
     flex-grow: 1;
-    margin-right: 1rem;
+    margin-right: auto;
 }
 
 .addon .info .name {
@@ -130,8 +131,7 @@
 }
 
 .addon .info .description {
-    overflow: hidden;
-    text-overflow: ellipsis;
+    flex-wrap: wrap;
     font-size: 12px;
 }
 

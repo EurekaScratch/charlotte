@@ -26,6 +26,8 @@
   "@data-category-tweaks-v2/name": "数据栏工具",
   "@eureka/description": "通用 Scratch 扩展加载器",
   "@eureka/name": "Eureka",
+  "@middle-click-popup/description": "用鼠标中键或 Shift 键单击代码区，或按 Ctrl+Space 键弹出代码块搜索窗口。键入积木名称（或部分名称）并拖入代码区，即可将其添加到项目中。可以使用箭头键和回车键浏览菜单，并支持使用 Tab 自动补全。要防止菜单关闭，可在拖出积木时按住 Shift 键。",
+  "@middle-click-popup/name": "文本转积木",
   "@remove-curved-stage-border/description": "移除舞台周围的弧形边框。",
   "@remove-curved-stage-border/name": "移除舞台弧形边框",
   "@reorder-custom-inputs/description": "让您能在 \"制作积木\" 时为积木参数重新排序",

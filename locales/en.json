@@ -26,6 +26,8 @@
   "@data-category-tweaks-v2/name": "Data category tweaks",
   "@eureka/description": "Universal Scratch Extensions Loader",
   "@eureka/name": "Eureka",
+  "@middle-click-popup/description": "Middle or shift-click the code area, or press Ctrl+Space to bring up a block search window. Type block names (or parts of them) and drag them into the code area to add them to your project. The menu can be navigated with the arrow keys and Enter and supports autocompleting with Tab. To prevent the menu from closing, hold Shift while dragging blocks out of it.",
+  "@middle-click-popup/name": "Insert blocks by name",
   "@remove-curved-stage-border/description": "Removes the curved border around the stage.",
   "@remove-curved-stage-border/name": "Remove curved stage border",
   "@reorder-custom-inputs/description": "Allows rearranging custom block parameters on the \"Make a block\" screen.",

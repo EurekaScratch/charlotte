@@ -1,0 +1,63 @@
+{
+  "name": "Insert blocks by name",
+  "description": "Middle or shift-click the code area, or press Ctrl+Space to bring up a block search window. Type block names (or parts of them) and drag them into the code area to add them to your project. The menu can be navigated with the arrow keys and Enter and supports autocompleting with Tab. To prevent the menu from closing, hold Shift while dragging blocks out of it.",
+  "credits": [
+    {
+      "name": "Tacodiva",
+      "link": "https://github.com/Tacodiva"
+    },
+    {
+      "name": "griffpatch"
+    },
+    {
+      "name": "TheColaber",
+      "link": "https://scratch.mit.edu/users/TheColaber/"
+    },
+    {
+      "name": "CST1229",
+      "link": "https://github.com/CST1229"
+    }
+  ],
+  "tags": ["sa-ported", "editor", "codeEditor", "recommended"],
+  "enabledByDefault": false,
+  "userscripts": [
+    {
+      "url": "userscript",
+      "matches": ["all"]
+    }
+  ],
+  "userstyles": [
+    {
+      "url": "userstyle.css",
+      "matches": ["all"]
+    },
+    {
+      "url": "compatibility.css",
+      "matches": ["all"]
+    }
+  ],
+  "settings": {
+    "popup_scale": {
+      "name": "Popup Block Size",
+      "type": "integer",
+      "min": 1,
+      "max": 100,
+      "default": 48
+    },
+    "popup_width": {
+      "name": "Popup Width",
+      "type": "integer",
+      "min": 1,
+      "max": 100,
+      "default": 16
+    },
+    "popup_max_height": {
+      "name": "Popup Maximum Height",
+      "type": "integer",
+      "min": 1,
+      "max": 100,
+      "default": 40
+    }
+  },
+  "required": ["api"]
+}
