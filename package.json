@@ -35,7 +35,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-import-attributes-to-assertions": "^7.23.3",
     "@babel/plugin-transform-react-jsx": "^7.23.4",
-    "@babel/preset-typescript": "^7.23.3",
+    "@babel/preset-typescript": "^7.24.1",
     "@commitlint/cli": "^19.2.0",
     "@formatjs/cli": "^6.2.7",
     "@gera2ld/plaid": "~2.7.0",
