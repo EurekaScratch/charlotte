@@ -69,7 +69,7 @@ export interface AddonSettingSelect {
     items: AddonSelectorItem[];
 }
 
-export type AddonSetting = AddonSettingBoolean | AddonSettingSelect | AddonSettingColor | AddonSettingString | AddonSettingString;
+export type AddonSetting = AddonSettingBoolean | AddonSettingSelect | AddonSettingColor | AddonSettingString | AddonSettingInt;
 
 export interface AddonManifest {
     id: string;

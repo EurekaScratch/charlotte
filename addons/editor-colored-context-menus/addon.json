@@ -1,0 +1,26 @@
+{
+  "name": "Colored context menus",
+  "description": "Makes block right click context menus colorful.",
+  "credits": [
+    {
+      "name": "GarboMuffin"
+    }
+  ],
+  "dynamicEnable": true,
+  "dynamicDisable": true,
+  "userscripts": [
+    {
+      "url": "userscript",
+      "matches": ["all"]
+    }
+  ],
+  "userstyles": [
+    {
+      "url": "userscript.css",
+      "matches": ["all"]
+    }
+  ],
+  "tags": ["sa-ported", "editor", "codeEditor", "theme", "featured"],
+  "enabledByDefault": false,
+  "required": ["api"]
+}
