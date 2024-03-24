@@ -29,13 +29,13 @@ export interface AddonCtx {
     settings: AddonSettings;
 }
 
-interface AddonSettingBoolean {
+export interface AddonSettingBoolean {
     name: string;
     type: 'boolean';
     default: boolean;
 }
 
-interface AddonSettingInt {
+export interface AddonSettingInt {
     name: string;
     type: 'integer' | 'positive_integer';
     default: number;
@@ -43,35 +43,35 @@ interface AddonSettingInt {
     max?: number;
 }
 
-interface AddonSettingString {
+export interface AddonSettingString {
     name: string;
     type: 'string';
     default: string;
 }
 
-interface AddonSettingColor {
+export interface AddonSettingColor {
     name: string;
     type: 'color';
     default: `#${string}`;
     allowTransparency?: boolean;
 }
 
-interface AddonSelectorItem {
+export interface AddonSelectorItem {
     id: string;
     name: string;
     value: string;
 }
 
-interface AddonSettingSelect {
+export interface AddonSettingSelect {
     name: string;
     type: 'select';
     default: string;
     items: AddonSelectorItem[];
 }
 
-type AddonSetting = AddonSettingBoolean | AddonSettingSelect | AddonSettingColor | AddonSettingString | AddonSettingString;
+export type AddonSetting = AddonSettingBoolean | AddonSettingSelect | AddonSettingColor | AddonSettingString | AddonSettingString;
 
-export interface Addon {
+export interface AddonManifest {
     id: string;
     name: string;
     description: string;
@@ -82,6 +82,9 @@ export interface Addon {
     userscripts: readonly Userscript[];
     userstyles: readonly Userstyle[];
     settings: Record<string, AddonSetting>;
+}
+
+export interface Addon extends AddonManifest {
     enabled?: boolean;
     disposers?: (() => void)[];
 }

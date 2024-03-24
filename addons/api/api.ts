@@ -58,14 +58,14 @@ export interface CharlotteAPI {
     xmlEscape (unsafe: string): string;
 }
 
-interface BaseContextMenuOptions {
+export interface BaseContextMenuOptions {
     workspace: boolean;
     blocks: boolean;
     flyout: boolean;
     comments: boolean;
 }
 
-type ContextMenuOptions = Partial<BaseContextMenuOptions>;
+export type ContextMenuOptions = Partial<BaseContextMenuOptions>;
 
 export interface ContextMenuItem {
     enabled: boolean;
@@ -74,11 +74,11 @@ export interface ContextMenuItem {
     separator: boolean;
 }
 
-interface StoredContextMenuCallback extends BaseContextMenuOptions {
+export interface StoredContextMenuCallback extends BaseContextMenuOptions {
     callback: ContextMenuCallback;
 }
 
-type ContextMenuCallback = (items: ContextMenuItem[], block: unknown, event: unknown) => ContextMenuItem[];
+export type ContextMenuCallback = (items: ContextMenuItem[], block: unknown, event: unknown) => ContextMenuItem[];
 
 export default async function ({addon, console}) {
     addon.api = {};
