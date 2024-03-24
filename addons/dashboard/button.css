@@ -1,0 +1,23 @@
+.charlotteButton {
+    position: relative;
+    bottom: -1px;
+    z-index: 1;
+    padding: 0.125rem 1.25rem 0;
+    margin-bottom: 0;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    height: 80%;
+    flex-grow: 1;
+    background-color: hsla(215, 50%, 90%, 1);
+    border: 1px solid hsla(0, 0%, 0%, 0.15);
+    border-radius: 1rem 1rem 0 0;
+    color: hsla(225, 15%, 40%, 0.75);
+    cursor: pointer;
+}
+
+.charlotteButton:hover {
+    background-color: hsla(215, 100%, 95%, 1);
+}

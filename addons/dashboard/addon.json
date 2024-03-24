@@ -5,9 +5,20 @@
     "enabledByDefault": true,
     "userscripts": [
         {
-            "url": "userscript",
-            "matches": ["all"],
+            "url": "gui-button",
+            "matches": ["sc", "xmw", "acamp", "cc"],
             "runAtComplete": true
+        },
+        {
+            "url": "category-button",
+            "matches": ["all"],
+            "runAtComplete": false
+        }
+    ],
+    "userstyles": [
+        {
+            "url": "button.css",
+            "matches": ["sc", "xmw", "acamp", "cc"]
         }
     ],
     "credits": [

@@ -66,12 +66,18 @@ export default async function ({addon, console}) {
     }
 
     try {
-        Object.defineProperty(window, '__REDUX_DEVTOOLS_EXTENSION_COMPOSE__', {
-            get: () => compose,
-            set: (v) => {
-                newerCompose = v;
-            }
-        });
+        // ScratchAddons has captured redux
+        if (window.__scratchAddonsRedux) {
+            console.warn('ScratchAddons has captured redux.');
+            addon.redux = window.__scratchAddonsRedux;
+        } else {
+            Object.defineProperty(window, '__REDUX_DEVTOOLS_EXTENSION_COMPOSE__', {
+                get: () => compose,
+                set: (v) => {
+                    newerCompose = v;
+                }
+            });
+        }
     } catch (e) {
         console.error(`failed to capture redux\n`, e);
     }

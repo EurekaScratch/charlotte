@@ -53,10 +53,43 @@ export interface CharlotteAPI {
      * https://stackoverflow.com/questions/7918868/
      * how-to-escape-xml-entities-in-javascript
      * @param unsafe Unsafe string.
-     * @return XML-escaped string, for use within an XML tag.
+     * @returns XML-escaped string, for use within an XML tag.
      */
     xmlEscape (unsafe: string): string;
+    /**
+     * Waiting until redux state marches condition.
+     * @param condition The function to judge whether current state matches condition.
+     * @param scope Which actions will trigger condition function.
+     * @example
+     * await addon.api.pendingReduxState((state) => state.scratchGui?.mode?.isFullScreen);
+     * console.log('The stage is full-screen!');
+     */
+    pendingReduxState (condition: StatePendingCondition, scope?: string[]): Promise<void>;
+    /**
+     * Waiting until selected element rendered.
+     * @param selector Selector string, syntax is same as `querySelector`.
+     * @returns a promise that resolves requested element.
+     */
+    waitForElementRender (selector: string): Promise<HTMLElement>;
+    /**
+     * Append a element to a specific position in Scratch editor.
+     * @param element The element you want to append to
+     * @param space Where do you want to append
+     * @param order The the order of the added element.
+     * @example
+     * const button = document.createElement('button');
+     * button.className = 'charlotteButton';
+     * button.innerHTML = '🌠&nbsp;Charlotte';
+     * button.addEventListener('click', () => {
+     *     addon.app.openFrontend();
+     * });
+     *
+     * addon.api.appendToSharedSpace(button, 'afterSoundTab');
+     */
+    appendToSharedSpace (element: HTMLElement, space: SharedSpace, order?: number): void;
 }
+
+export type SharedSpace = 'stageHeader' | 'fullscreenStageHeader' | 'afterGreenFlag' | 'afterStopButton' | 'afterSoundTab';
 
 export interface BaseContextMenuOptions {
     workspace: boolean;
@@ -79,6 +112,8 @@ export interface StoredContextMenuCallback extends BaseContextMenuOptions {
 }
 
 export type ContextMenuCallback = (items: ContextMenuItem[], block: unknown, event: unknown) => ContextMenuItem[];
+
+export type StatePendingCondition = (state: unknown) => boolean;
 
 export default async function ({addon, console}) {
     addon.api = {};
@@ -192,6 +227,155 @@ export default async function ({addon, console}) {
         };
     }
 
+    function pendingReduxState (condition: StatePendingCondition, scope?: string[]) {
+        if (!addon.redux.target) {
+            throw new Error('Redux not ready');
+        }
+
+        if (condition(addon.redux.state)) return Promise.resolve();
+        return new Promise<void>(resolve => {
+            const listener = ({detail}) => {
+                if (scope && !scope.includes(detail.action.type)) return;
+                if (!condition(detail.next)) return;
+                addon.redux.removeEventListener('statechanged', listener);
+                setTimeout(resolve, 0);
+            };
+            addon.redux.addEventListener('statechanged', listener);
+        });
+    }
+
+    function waitForElementRender (selector: string) {
+        return new Promise<HTMLElement>((resolve) => {
+            const observer = new MutationObserver((mutationsList, observer) => {
+                const elements = document.querySelectorAll(selector);
+                elements.forEach((element) => {
+                    if (element instanceof HTMLElement) {
+                        observer.disconnect();
+                        resolve(element);
+                    }
+                });
+            });
+
+            observer.observe(document.body, { subtree: true, childList: true });
+        });
+    }
+
+    function appendToSharedSpace (element: HTMLElement, space: SharedSpace, order = 0) {
+        const q = document.querySelector.bind(document);
+        const sharedSpaces = {
+            stageHeader: {
+                // Non-fullscreen stage header only
+                element: () => q("[class^='stage-header_stage-size-row']"),
+                from: () => [],
+                until: () => [
+                    // Small/big stage buttons (for editor mode)
+                    q("[class^='stage-header_stage-size-toggle-group']"),
+                    // Full screen icon (for player mode)
+                    q("[class^='stage-header_stage-size-row']").lastChild,
+                ],
+            },
+            fullscreenStageHeader: {
+                // Fullscreen stage header only
+                element: () => q("[class^='stage-header_stage-menu-wrapper']"),
+                from: function () {
+                    let emptyDiv = this.element().querySelector('.charlotte-spacer');
+                    if (!emptyDiv) {
+                        emptyDiv = document.createElement('div');
+                        emptyDiv.style.marginLeft = 'auto';
+                        emptyDiv.className = 'charlotte-spacer';
+                        this.element().insertBefore(emptyDiv, this.element().lastChild);
+                    }
+                    return [emptyDiv];
+                },
+                until: () => [q("[class^='stage-header_stage-menu-wrapper']").lastChild],
+            },
+            afterGreenFlag: {
+                element: () => q("[class^='controls_controls-container']"),
+                from: () => [],
+                until: () => [q("[class^='stop-all_stop-all']")],
+            },
+            afterStopButton: {
+                element: () => q("[class^='controls_controls-container']"),
+                from: () => [q("[class^='stop-all_stop-all']")],
+                until: () => [],
+            },
+            afterSoundTab: {
+                element: () => q("[class^='react-tabs_react-tabs__tab-list']"),
+                from: () => [q("[class^='react-tabs_react-tabs__tab-list']").children[2]],
+                until: () => [],
+            },
+        };
+
+        const spaceInfo = sharedSpaces[space];
+        const spaceElement = spaceInfo.element();
+        if (!spaceElement) return false;
+        const from = spaceInfo.from();
+        const until = spaceInfo.until();
+
+        element.dataset.charlotteSharedSpaceOrder = String(order);
+
+        let foundFrom = false;
+        if (from.length === 0) foundFrom = true;
+
+        // InsertAfter = element whose nextSibling will be the new element
+        // -1 means append at beginning of space (prepend)
+        // This will stay null if we need to append at the end of space
+        let insertAfter: HTMLElement | number | null = null;
+
+        const children = Array.from(spaceElement.children);
+        for (const indexString of children.keys()) {
+            const child = children[indexString] as HTMLElement;
+            const i = Number(indexString);
+
+            // Find either element from "from" before doing anything
+            if (!foundFrom) {
+                if (from.includes(child)) {
+                    foundFrom = true;
+                    // If this is the last child, insertAfter will stay null
+                    // And the element will be appended at the end of space
+                }
+                continue;
+            }
+
+            if (until.includes(child)) {
+                // This is the first Charlotte element appended to this space
+                // If from = [] then prepend, otherwise append after
+                // Previous child (likely a "from" element)
+                if (i === 0) insertAfter = -1;
+                else insertAfter = children[i - 1] as HTMLElement;
+                break;
+            }
+
+            if (child.dataset.charlotteSharedSpaceOrder) {
+                if (Number(child.dataset.charlotteSharedSpaceOrder) > order) {
+                    // We found another element with higher order number
+                    // If from = [] and this is the first child, prepend.
+                    // Otherwise, append before this child.
+                    if (i === 0) insertAfter = -1;
+                    else insertAfter = children[i - 1] as HTMLElement;
+                    break;
+                }
+            }
+        }
+
+        if (!foundFrom) return false;
+        // It doesn't matter if we didn't find an "until"
+
+        if (insertAfter === null) {
+            // This might happen with until = []
+            spaceElement.appendChild(element);
+        } else if (insertAfter === -1) {
+            // This might happen with from = []
+            spaceElement.prepend(element);
+        } else if (insertAfter instanceof HTMLElement) {
+            // Works like insertAfter but using insertBefore API.
+            // NextSibling cannot be null because insertAfter
+            // Is always set to children[i-1], so it must exist
+            spaceElement.insertBefore(element, insertAfter.nextSibling);
+        }
+        return true;
+    }
+
     function xmlEscape (unsafe: string) {
         return unsafe.replace(/[<>&'"]/g, (c: string) => {
             switch (c) {
@@ -210,6 +394,9 @@ export default async function ({addon, console}) {
         getVM,
         getBlockly,
         createBlockContextMenu,
+        pendingReduxState,
+        waitForElementRender,
+        appendToSharedSpace,
         xmlEscape
     } satisfies CharlotteAPI;
 }

@@ -1,5 +1,5 @@
 # 什么是 Charlotte？
-Charlotte 是一款 Scratch 插件加载器，设计灵活、可扩展。夏洛特可以为绝大多数Scratch编辑器添加许多令人兴奋的功能。
+Charlotte 是一款 Scratch 插件加载器，设计灵活、可扩展。Charlotte 可以为绝大多数 Scratch 编辑器添加许多令人兴奋的功能。
 
 该项目的名称来源于围绕太阳运行的小行星 "543 Charlotte"。它是由保罗-戈兹（Paul Götz）于 1904 年 9 月 11 日在海德堡发现的。
 # 与 ScratchAddons 有什么不同？

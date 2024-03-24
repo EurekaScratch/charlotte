@@ -246,7 +246,9 @@ export async function activate (id: string) {
             });
             continue;
         }
-        const disposer = await wrappedScript();
+        const disposer = await wrappedScript().catch(e => {
+            console.error(`(${id}) ${script.func.toString()}: `, e);
+        });
         if (typeof disposer === 'function') {
             addon.disposers.push(disposer);
         }
@@ -307,7 +309,9 @@ async function loadScriptAtComplete () {
     if (deferredScripts.length > 0) {
         for (const script of deferredScripts) {
             const addon = globalCtx.addons[script.belongs];
-            const disposer = await script.func();
+            const disposer = await script.func().catch(e => {
+                console.error(`(${script.belongs}) ${script.func.toString()}: `, e);
+            });
             if (typeof disposer === 'function') {
                 addon.disposers.push(disposer);
             }

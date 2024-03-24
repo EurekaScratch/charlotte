@@ -1,8 +1,3 @@
-/**
- * Based on https://github.com/scratchfoundation/scratch-blocks/compare/hotfix/totally-normal-2021 (Apache 2.0)
- * It has been modified to work properly in our environment and fix some bugs.
- */
-
 export default async function ({ addon, console }) {
     const Blockly = await addon.api.getBlockly();
     const originalAddCreateButton_ = Blockly.Procedures.addCreateButton_;

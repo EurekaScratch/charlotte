@@ -11,7 +11,6 @@
   "enabledByDefault": false,
   "dynamicDisable": true,
   "dynamicEnable": true,
-  "versionAdded": "1.14.0",
   "userstyles": [
     {
       "url": "remove-borders.css",
