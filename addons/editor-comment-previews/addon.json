@@ -44,16 +44,19 @@
       "type": "select",
       "items": [
         {
+          "id": "none",
           "name": "None",
-          "id": "none"
+          "value": "none"
         },
         {
+          "id": "short",
           "name": "Short",
-          "id": "short"
+          "value": "short"
         },
         {
+          "id": "long",
           "name": "Long",
-          "id": "long"
+          "value": "long"
         }
       ],
       "default": "short"

@@ -66,7 +66,7 @@ export interface AddonSettingSelect {
     name: string;
     type: 'select';
     default: string;
-    items: AddonSelectorItem[];
+    items: readonly AddonSelectorItem[];
 }
 
 export type AddonSetting = AddonSettingBoolean | AddonSettingSelect | AddonSettingColor | AddonSettingString | AddonSettingInt;

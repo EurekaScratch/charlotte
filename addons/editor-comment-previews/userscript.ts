@@ -1,3 +1,18 @@
+interface VMBlock {
+    id: string;
+    parent: string | null;
+    opcode: string;
+    mutation?: {
+        proccode: string;
+    },
+    inputs: {
+        [inputName: string]: {
+            shadow: string | null;
+            block: string | null;
+        }
+    }
+}
+
 export default async function ({ addon, settings }) {
     const vm = await addon.api.getVM();
 
@@ -38,10 +53,10 @@ export default async function ({ addon, settings }) {
 
     const getBlock = (id) => vm.editingTarget.blocks.getBlock(id) || vm.runtime.flyoutBlocks.getBlock(id);
     const getComment = (block) => block && block.comment && vm.editingTarget.comments[block.comment];
-    const getProcedureDefinitionBlock = (procCode) => {
+    const getProcedureDefinitionBlock = (procCode: string) => {
         const procedurePrototype = Object.values(vm.editingTarget.blocks._blocks).find(
-            (i) => i.opcode === 'procedures_prototype' && i.mutation.proccode === procCode
-        );
+            (i: VMBlock) => i.opcode === 'procedures_prototype' && i.mutation.proccode === procCode
+        ) as VMBlock | null;
         if (procedurePrototype) {
             // Usually `parent` will exist but sometimes it doesn't
             if (procedurePrototype.parent) {
@@ -49,7 +64,7 @@ export default async function ({ addon, settings }) {
             }
             const id = procedurePrototype.id;
             return Object.values(vm.editingTarget.blocks._blocks).find(
-                (i) => i.opcode === 'procedures_definition' && i.inputs.custom_block && i.inputs.custom_block.block === id
+                (i: VMBlock) => i.opcode === 'procedures_definition' && i.inputs.custom_block && i.inputs.custom_block.block === id
             );
         }
         return null;
@@ -78,7 +93,7 @@ export default async function ({ addon, settings }) {
             return;
         }
 
-        const el = e.target.closest('.blocklyBubbleCanvas > g, .blocklyBlockCanvas .blocklyDraggable[data-id]');
+        const el: HTMLElement = (e.target as HTMLElement).closest('.blocklyBubbleCanvas > g, .blocklyBlockCanvas .blocklyDraggable[data-id]');
         if (el === hoveredElement) {
             // Nothing to do.
             return;
@@ -91,16 +106,16 @@ export default async function ({ addon, settings }) {
         let text = null;
         if (
             settings.get('hover-view') &&
-      e.target.closest('.blocklyBubbleCanvas > g') &&
+      (e.target as HTMLElement).closest('.blocklyBubbleCanvas > g') &&
       // Hovering over the thin line that connects comments to blocks should never show a preview
-      !e.target.closest('line')
+      !(e.target as HTMLElement).closest('line')
         ) {
             const collapsedText = el.querySelector('text.scratchCommentText');
             if (collapsedText.getAttribute('display') !== 'none') {
                 const textarea = el.querySelector('textarea');
                 text = textarea.value;
             }
-        } else if (e.target.closest('.blocklyBlockCanvas .blocklyDraggable[data-id]')) {
+        } else if ((e.target as HTMLElement).closest('.blocklyBlockCanvas .blocklyDraggable[data-id]')) {
             const id = el.dataset.id;
             const block = getBlock(id);
             const comment = getComment(block);
