@@ -12,8 +12,8 @@ importers:
         specifier: ^7.23.7
         version: 7.24.0
       '@formatjs/intl':
-        specifier: ^2.10.0
-        version: 2.10.0(typescript@5.3.3)
+        specifier: ^2.10.1
+        version: 2.10.1(typescript@5.3.3)
       classnames:
         specifier: ^2.5.1
         version: 2.5.1
@@ -2109,8 +2109,8 @@ packages:
     dependencies:
       tslib: 2.6.2
 
-  /@formatjs/intl@2.10.0(typescript@5.3.3):
-    resolution: {integrity: sha512-X3xT9guVkKDS86EKV80lS0KxoazUglkJTGZO66sKY7otgl0VeStPA8B3u8UkKT47PexVV98fUzjpkchYmbe9nw==}
+  /@formatjs/intl@2.10.1(typescript@5.3.3):
+    resolution: {integrity: sha512-dsLG15U7xDi8yzKf4hcAWSsCaez3XrjTO2oaRHPyHtXLm1aEzYbDw6bClo/HMHu+iwS5GbDqT3DV+hYP2ylScg==}
     peerDependencies:
       typescript: ^4.7 || 5
     peerDependenciesMeta:
