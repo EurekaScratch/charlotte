@@ -37,7 +37,7 @@
     "@babel/plugin-transform-react-jsx": "^7.23.4",
     "@babel/preset-typescript": "^7.23.3",
     "@commitlint/cli": "^19.2.0",
-    "@formatjs/cli": "^6.2.7",
+    "@formatjs/cli": "^6.2.8",
     "@gera2ld/plaid": "~2.7.0",
     "@gera2ld/plaid-rollup": "~2.7.0",
     "@rollup/plugin-image": "^3.0.3",
