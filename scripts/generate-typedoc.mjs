@@ -47,6 +47,8 @@ async function main () {
         // Parse data structure to generate Sidebar configuration required by VitePress Config
         await resolveConfig(jsonDir);
     }
+
+    fs.copyFile(rootPath('dist/charlotte.user.js'), rootPath('docs/public/charlotte.user.js'));
 }
 
 /** Generate sidebar directory configuration */

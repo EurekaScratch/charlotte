@@ -9,7 +9,7 @@ hero:
   actions:
     - theme: brand
       text: Install
-      link: https://github.com/EurekaScratch/releases
+      link: /charlotte.user.js
     - theme: alt
       text: Learn More
       link: /guide/intro

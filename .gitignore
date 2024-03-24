@@ -3,6 +3,7 @@ node_modules
 /.idea
 /dist
 /docs/doc
+/docs/public/charlotte.user.js
 /docs/.vitepress/dist
 /docs/.vitepress/cache
 /.nyc_output

@@ -12,7 +12,7 @@ export default defineConfig(Object.entries({
   plugins: [
     ...definePlugins({
       esm: true,
-      minimize: false,
+      minimize: process.env.NODE_ENV === 'production',
       postcss: {
         inject: false,
         minimize: true,
