@@ -23,17 +23,17 @@
   "userscripts": [
     {
       "url": "userscript",
-      "matches": ["all"]
+      "matches": ["cc", "acamp", "xmw"]
     }
   ],
   "userstyles": [
     {
       "url": "userstyle.css",
-      "matches": ["all"]
+      "matches": ["cc", "acamp", "xmw"]
     },
     {
       "url": "compatibility.css",
-      "matches": ["all"]
+      "matches": ["cc", "acamp", "xmw"]
     }
   ],
   "settings": {
