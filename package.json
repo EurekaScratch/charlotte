@@ -30,7 +30,7 @@
     "@formatjs/intl": "^2.10.0",
     "classnames": "^2.5.1",
     "eventemitter3": "^5.0.1",
-    "solid-js": "^1.8.15"
+    "solid-js": "^1.8.16"
   },
   "devDependencies": {
     "@babel/plugin-proposal-import-attributes-to-assertions": "^7.23.3",
