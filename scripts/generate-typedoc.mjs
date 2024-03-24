@@ -48,7 +48,7 @@ async function main () {
         await resolveConfig(jsonDir);
     }
 
-    fs.copyFile(path.join('dist/charlotte.user.js'), path.join('docs/public/charlotte.user.js'));
+    fs.copyFile(path.resolve('dist/charlotte.user.js'), path.resolve('docs/public/charlotte.user.js'));
 }
 
 /** Generate sidebar directory configuration */
