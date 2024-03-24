@@ -1,6 +1,6 @@
 import type { GlobalCtx } from './ctx';
 import type { Match } from './match';
-import intl from '../util/l10n';
+import intl, { defineMessage } from '../util/l10n';
 import { isMatchingCurrentURL } from './match';
 import console, { createConsole } from '../util/console';
 import { Graph } from '../util/graph';
@@ -89,6 +89,11 @@ export interface Addon extends AddonManifest {
     disposers?: (() => void)[];
 }
 
+const activatedMessage = defineMessage({
+    id: '@core/addonActivated',
+    defaultMessage: '{name} (id: {id}) activated!'
+});
+
 let globalCtx: GlobalCtx | null = null;
 let pageLoaded = false;
 const deferredScripts: DeferredScript[] = [];
@@ -134,7 +139,10 @@ export async function activateByOrder (ids: string[]) {
     const orderedIds = graph.topo();
     for (const id of orderedIds) {
         try {
-            console.log(`activating ${id}`);
+            console.log(intl.formatMessage({
+                id: '@core/activatingAddon',
+                defaultMessage: 'Activating {id}...'
+            }, {id}));
             // Ensure required addons activated ahead
             if (requireStack.has(id)) {
                 await activate(id);
@@ -142,7 +150,10 @@ export async function activateByOrder (ids: string[]) {
                 activate(id);
             }
         } catch (e) {
-            console.error(`Loader: Error occured while activating ${id}\n`, e);
+            console.error(intl.formatMessage({
+                id: '@core/errorOccuredWhileActivating',
+                defaultMessage: 'Loader: Error occured while activating {id}\n'
+            }, {id}), e);
         }
     }
 }
@@ -191,7 +202,10 @@ export async function deactivateByOrder (ids: string[]) {
         try {
             await deactivate(id);
         } catch (e) {
-            console.error(`Loader: Error occured while deactivating ${id}\n`, e);
+            console.error(intl.formatMessage({
+                id: '@core/errorOccuredWhileDeactivating',
+                defaultMessage: 'Loader: Error occured while deactivating {id}\n'
+            }, {id}), e);
         }
     }
 }
@@ -218,7 +232,10 @@ export async function activate (id: string) {
 
     const addon = globalCtx.addons[id];
     if (addon.enabled) {
-        return console.warn(`cannot activate an enabled addon: ${id}`);
+        return console.warn(intl.formatMessage({
+            id: '@core/cannotActivateEnabledAddon',
+            defaultMessage: 'cannot activate an enabled addon: {id}'
+        }, {id}));
     }
 
     // Apply userscripts
@@ -247,7 +264,7 @@ export async function activate (id: string) {
             continue;
         }
         const disposer = await wrappedScript().catch(e => {
-            console.error(`(${id}) ${script.func.toString()}: `, e);
+            console.error(`(${id}) ${script.func.name.toString()}: `, e);
         });
         if (typeof disposer === 'function') {
             addon.disposers.push(disposer);
@@ -268,7 +285,9 @@ export async function activate (id: string) {
     if (!hasDeferredScripts) {
         addon.enabled = true;
         globalCtx.emit('core.addon.activated', id);
-        console.log(`${addon.name}(id: ${id}) activated!`);
+        console.log(intl.formatMessage(activatedMessage, {name: addon.name, id}));
+    } else {
+        window.addEventListener('load', loadScriptAtComplete);
     }
 }
 
@@ -279,7 +298,10 @@ export async function deactivate (id: string) {
 
     const addon = globalCtx.addons[id];
     if (!addon.enabled) {
-        return console.warn(`cannot deactivate a disabled addon: ${id}`);
+        return console.warn(intl.formatMessage({
+            id: '@core/cannotDeactivateDisabledAddon',
+            defaultMessage: 'cannot deactivate a disabled addon: {id}'
+        }, {id}));
     }
 
     // Execute disposers
@@ -297,7 +319,10 @@ export async function deactivate (id: string) {
 
     addon.enabled = false;
     globalCtx.emit('core.addon.deactivated', id);
-    console.log(`${addon.name}(id: ${id}) deactivated!`);
+    console.log(intl.formatMessage({
+        id: '@core/addonDeactivated',
+        defaultMessage: '{name} (id: {id}) deactivated!'
+    }, {name: addon.name, id}));
 }
 
 async function loadScriptAtComplete () {
@@ -310,7 +335,7 @@ async function loadScriptAtComplete () {
         for (const script of deferredScripts) {
             const addon = globalCtx.addons[script.belongs];
             const disposer = await script.func().catch(e => {
-                console.error(`(${script.belongs}) ${script.func.toString()}: `, e);
+                console.error(`(${script.belongs}) ${script.func.name.toString()}: `, e);
             });
             if (typeof disposer === 'function') {
                 addon.disposers.push(disposer);
@@ -322,12 +347,10 @@ async function loadScriptAtComplete () {
             const addon = globalCtx.addons[id];
             addon.enabled = true;
             globalCtx.emit('core.addon.activated', id);
-            console.log(`${addon.name}(id: ${id}) activated!`);
+            console.log(intl.formatMessage(activatedMessage, {name: addon.name, id}));
         }
     }
 
     pageLoaded = true;
     window.removeEventListener('load', loadScriptAtComplete);
 }
-
-window.addEventListener('load', loadScriptAtComplete);

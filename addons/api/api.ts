@@ -118,15 +118,6 @@ export type StatePendingCondition = (state: unknown) => boolean;
 export default async function ({addon, console}) {
     addon.api = {};
 
-    const originalGetLocale = addon.getLocale;
-    addon.getLocale = function () {
-        const vm = addon.instances.vm;
-        if (vm) {
-            return vm.getLocale.call(vm) ?? originalGetLocale.call(this);
-        }
-        return originalGetLocale.call(this);
-    };
-
     let cachedResult: keyof typeof platformInfo | 'unknown' | null = null;
     function getPlatform () {
         if (cachedResult) return cachedResult;
@@ -388,6 +379,24 @@ export default async function ({addon, console}) {
             return '';
         });
     }
+
+    // Make charlotte track Scratch's locale
+    const originalGetLocale = addon.getLocale;
+    addon.getLocale = function () {
+        const vm = addon.instances.vm;
+        if (vm) {
+            return vm.getLocale() ?? originalGetLocale.call(addon);
+        }
+        return originalGetLocale.call(this);
+    };
+    getVM().then(vm => {
+        const originalSetLocale = vm.setLocale;
+        vm.setLocale = function (locale: string, messages: object, ...args: unknown[]) {
+            const result = originalSetLocale.call(this);
+            addon.settings.locale = locale;
+            return result;
+        };
+    });
 
     addon.api = {
         getPlatform,

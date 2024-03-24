@@ -8,7 +8,7 @@ import { attachCtx, settings } from '../util/settings';
 
 class Ctx extends EventEmitter {
     version: string;
-    addons: Record<string, Addon> = addons;
+    addons: Record<string, Addon> = addons();
     settings = settings;
     loader = loader;
     app = app;
@@ -19,6 +19,9 @@ class Ctx extends EventEmitter {
         attachCtx(this);
     }
 
+    reloadAddons () {
+        this.addons = addons();
+    }
     getLocale () {
         return settings.locale ?? 'en';
     }

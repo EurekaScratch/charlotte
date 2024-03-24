@@ -1,6 +1,7 @@
 import type { Addon } from '../loader/loader';
 import { createSignal, Show, For, onMount } from 'solid-js';
 import { render } from 'solid-js/web';
+import intl, { defineMessage } from '../util/l10n';
 import console from '../util/console';
 import classNames from 'classnames';
 import globalCss from './style.css';
@@ -95,10 +96,16 @@ function Modal () {
             <div class={styles.container}>
                 <div class={styles.modal}>
                     <div class={styles.header}>
-                        <span class={styles.title}>Charlotte</span>
+                        <span class={styles.title}>{intl.formatMessage({
+                            id: '@core/modalTitle',
+                            defaultMessage: 'Addons'
+                        })}</span>
                         <div class={styles.headerItem}>
                             <div
-                                aria-label='Close'
+                                aria-label={intl.formatMessage({
+                                    id: '@core/modalCloseAria',
+                                    defaultMessage: 'Close'
+                                })}
                                 class={styles.closeButton}
                                 role='button'
                                 tabIndex='0'
@@ -114,7 +121,10 @@ function Modal () {
                     <div class={styles.body}>
                         <Show when={refreshRequested()}>
                             <span class={styles.alert}>
-                                Some changes require a refresh to take effect.
+                                {intl.formatMessage({
+                                    id: '@core/modalRefreshRequested',
+                                    defaultMessage: 'Some changes require a refresh to take effect.'
+                                })}
                             </span>
                         </Show>
                         <For each={Object.values(addons())}>
