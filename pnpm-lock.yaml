@@ -61,8 +61,8 @@ importers:
         specifier: ^10.5.13
         version: 10.5.13
       babel-preset-solid:
-        specifier: ^1.8.6
-        version: 1.8.15(@babel/core@7.24.0)
+        specifier: ^1.8.16
+        version: 1.8.16(@babel/core@7.24.0)
       commitlint-config-gitmoji:
         specifier: ^2.3.1
         version: 2.3.1
@@ -4083,8 +4083,8 @@ packages:
       - ts-jest
     dev: true
 
-  /babel-plugin-jsx-dom-expressions@0.37.17(@babel/core@7.24.0):
-    resolution: {integrity: sha512-1bv8rOTzs6TR3DVyVZ7ElxyPEhnS556FMWRIsB3gBPfkn/cSKaLvXLGk+X1lvI+SzcUo4G+UcmJrn3vr1ig8mQ==}
+  /babel-plugin-jsx-dom-expressions@0.37.19(@babel/core@7.24.0):
+    resolution: {integrity: sha512-nef2eLpWBgFggwrYwN6O3dNKn3RnlX6n4DIamNEAeHwp03kVQUaKUiLaEPnHPJHwxie1KwPelyIY9QikU03vUA==}
     peerDependencies:
       '@babel/core': ^7.20.12
     dependencies:
@@ -4132,13 +4132,13 @@ packages:
       - supports-color
     dev: true
 
-  /babel-preset-solid@1.8.15(@babel/core@7.24.0):
-    resolution: {integrity: sha512-P2yOQbB7Hn/m4YvpXV6ExHIMcgNWXWXcvY4kJzG3yqAB3hKS58OZRsvJ7RObsZWqXRvZTITBIwnpK0BMGu+ZIQ==}
+  /babel-preset-solid@1.8.16(@babel/core@7.24.0):
+    resolution: {integrity: sha512-b4HFg/xaKM+H3Tu5iUlZ/43TJOZnhi85xrm3JrXDQ0s4cmtmU37bXXYzb2m55G4QKiFjxLAjvb7sUorPrAMs5w==}
     peerDependencies:
       '@babel/core': ^7.0.0
     dependencies:
       '@babel/core': 7.24.0
-      babel-plugin-jsx-dom-expressions: 0.37.17(@babel/core@7.24.0)
+      babel-plugin-jsx-dom-expressions: 0.37.19(@babel/core@7.24.0)
     dev: true
 
   /balanced-match@1.0.2:
