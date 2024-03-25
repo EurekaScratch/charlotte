@@ -274,12 +274,13 @@ export async function activate (id: string) {
     // Apply styles
     if (addon.userstyles.length > 0) {
         const styleElement = document.createElement('style');
+        styleElement.type = `text/css`;
         styleElement.id = `charlotte-addon-styles-${id}`;
         for (const style of addon.userstyles) {
             if (!isMatchingCurrentURL(style.matches)) continue;
             styleElement.innerHTML += `${style.stylesheet}\n`;
         }
-        document.body.append(styleElement);
+        document.head.append(styleElement);
     }
 
     if (!hasDeferredScripts) {

@@ -162,7 +162,7 @@ export function openFrontend () {
         const style = document.createElement('style');
         style.id = 'charlotte-styles';
         style.innerHTML = `${globalCss}\n${stylesheet}`;
-        document.body.append(style);
+        document.head.append(style);
         render(Modal, document.body);
     } else {
         setModalStatus(true);

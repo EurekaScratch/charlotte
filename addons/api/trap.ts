@@ -66,7 +66,7 @@ export default async function ({addon, console}) {
         });
     }
 
-    async function getBlocklyInstance (vm: DucktypedVM): Promise<ScratchBlocksInstance | null> {
+    async function getBlocklyInstanceFromVM (vm: DucktypedVM): Promise<ScratchBlocksInstance | null> {
         function getBlocklyInstanceInternal (): ScratchBlocksInstance | null {
             function hijack (fn: (...args: unknown[]) => unknown): any {
                 const _orig = Function.prototype.apply;
@@ -122,13 +122,19 @@ export default async function ({addon, console}) {
     }
 
     addon.once('API.instance.vm.initialized', async () => {
-        const blockly = await getBlocklyInstance(addon.instances.vm);
-        if (blockly) {
-            addon.instances.Blockly = blockly;
-            addon.emit('API.instance.Blockly.initialized');
-        } else {
-            console.error('Cannot get Blockly from VM');
+        if ('state' in addon.redux && (!('scratchGui' in addon.redux.state) || !addon.redux.state.scratchGui.mode.hasEverEnteredEditor)) {
+            // Blockly is not available now
+            console.log('Blockly is not available at now');
             addon.emit('API.instance.Blockly.failed');
+        } else {
+            const blockly = await getBlocklyInstanceFromVM(addon.instances.vm);
+            if (blockly) {
+                addon.instances.Blockly = blockly;
+                addon.emit('API.instance.Blockly.initialized');
+            } else {
+                console.error('Cannot get Blockly from VM');
+                addon.emit('API.instance.Blockly.failed');
+            }
         }
         addon.emit('API.instance.initialized');
     });

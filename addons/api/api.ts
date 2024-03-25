@@ -1,4 +1,5 @@
 import type { GlobalCtx } from '../../src/core/loader/ctx';
+import type { CharlotteRedux } from './redux';
 import { platformInfo } from '../../src/core/loader/match';
 
 export interface CtxWithAPI extends GlobalCtx {
@@ -26,6 +27,12 @@ export interface CharlotteAPI {
      * @returns a promise that returns Blockly instance
      */
     getBlockly (): Promise<unknown>;
+    /**
+     * Get Charlotte's redux instance asynchronously.
+     * This won't available if current page doesn't have redux or hide it (Eg: Codingclip)
+     * @returns a promise that returns Charlotte's redux instance
+     */
+    getRedux (): Promise<CharlotteRedux>;
     /**
      * Creates an item in the editor Blockly context menu by callback.
      * Available only when Blockly exists.
@@ -93,6 +100,12 @@ export interface CharlotteAPI {
      * @returns hashed className
      */
     hashedScratchClass (...possibleClassNames: string[]): string;
+    /**
+     * Get current page's most likely react internal key.
+     * This method does not mean that react exists in this interface. This method is just a simple inference based on the platform.
+     * @returns React's internal prefix
+     */
+    getReactInternalPrefix (): string;
 }
 
 export type SharedSpace = 'stageHeader' | 'fullscreenStageHeader' | 'afterGreenFlag' | 'afterStopButton' | 'afterSoundTab';
@@ -138,6 +151,14 @@ export default async function ({addon, console}) {
         return cachedResult;
     }
 
+    function getReactInternalPrefix () {
+        // Legacy ClipCC uses React 17.0.2, which has different internal prefix
+        if (getPlatform() === 'cc') {
+            return '__reactFiber$';
+        }
+        return '__reactInternalInstance$';
+    }
+
     let vmFailed = false;
     function getVM () {
         if (typeof addon.instances.vm === 'object') {
@@ -168,6 +189,18 @@ export default async function ({addon, console}) {
             addon.once('API.instance.Blockly.error', () => {
                 blocklyFailed = true;
                 reject();
+            });
+        });
+    }
+
+    function getRedux () {
+        if ('state' in addon.redux) {
+            return Promise.resolve(addon.redux);
+        }
+
+        return new Promise((resolve) => {
+            addon.once('API.redux.initialized', () => {
+                resolve(addon.redux);
             });
         });
     }
@@ -442,30 +475,58 @@ export default async function ({addon, console}) {
     // Make charlotte track Scratch's locale
     const originalGetLocale = addon.getLocale;
     addon.getLocale = function () {
+        if ('state' in addon.redux) {
+            return addon.redux.state?.locales?.locale ?? originalGetLocale.call(addon);
+        }
         const vm = addon.instances.vm;
         if (vm) {
             return vm.getLocale() ?? originalGetLocale.call(addon);
         }
         return originalGetLocale.call(this);
     };
-    getVM().then(vm => {
-        const originalSetLocale = vm.setLocale;
-        vm.setLocale = function (locale: string, messages: object, ...args: unknown[]) {
-            const result = originalSetLocale.call(this);
-            addon.settings.locale = locale;
-            return result;
-        };
-    });
+    // Prefer listening redux state changes rather than modify functions.
+    if (getPlatform() === 'cc') {
+        // Codingclip removed their REDUX_DEVTOOLS
+        getVM().then(vm => {
+            const originalSetLocale = vm.setLocale;
+            vm.setLocale = function (locale: string, messages: object, ...args: unknown[]) {
+                const result = originalSetLocale.call(this);
+                addon.settings.locale = locale;
+                return result;
+            };
+        });
+    } else {
+        getRedux().then(redux => {
+            // GUI does not exist, ignore it.
+            if (!('scratchGui' in redux.state)) return;
+
+            if (addon.settings.locale !== redux.state.locales.locale) {
+                addon.settings.locale = redux.state.locales.locale;
+            }
+
+            redux.target.addEventListener('statechanged', ({ detail }) => {
+                // ClipCC has different action type
+                if (!detail.action || !detail.action.type.endsWith('-gui/locales/SELECT_LOCALE')) {
+                    return;
+                }
+                if (addon.settings.locale !== detail.next.locales.locale) {
+                    addon.settings.locale = detail.next.locales.locale;
+                }
+            });
+        });
+    }
 
     addon.api = {
         getPlatform,
         getVM,
         getBlockly,
+        getRedux,
         createBlockContextMenu,
         pendingReduxState,
         waitForElementRender,
         appendToSharedSpace,
         hashedScratchClass,
+        getReactInternalPrefix,
         xmlEscape
     } satisfies CharlotteAPI;
 }

@@ -5,12 +5,12 @@
     "enabledByDefault": true,
     "userscripts": [
         {
-            "url": "trap",
+            "url": "redux",
             "matches": ["all"],
             "runAtComplete": false
         },
         {
-            "url": "redux",
+            "url": "trap",
             "matches": ["all"],
             "runAtComplete": false
         },

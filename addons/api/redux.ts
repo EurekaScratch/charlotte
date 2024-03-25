@@ -1,3 +1,9 @@
+export interface CharlotteRedux {
+    target: EventTarget;
+    state: Record<string, unknown>;
+    dispatch (action: unknown): unknown;
+}
+
 interface MiddlewareAPI<S, A> {
   getState: () => S;
   dispatch: (action: A) => void;
@@ -7,6 +13,7 @@ type Middleware<S, A> = (api: MiddlewareAPI<S, A>) => (next: (action: A) => void
 
 export default async function ({addon, console}) {
     addon.redux = {};
+    let reduxReady = false;
     class ReDucks {
         static compose<S, A> (...composeArgs: ((arg: S) => S)[]): (arg: S) => S {
             if (composeArgs.length === 0) return (args: S) => args;
@@ -44,6 +51,11 @@ export default async function ({addon, console}) {
         addonRedux.state = {};
         addonRedux.dispatch = () => {};
 
+        if (!reduxReady) {
+            addon.emit('API.redux.initialized');
+            reduxReady = true;
+        }
+
         function middleware ({ getState, dispatch }: MiddlewareAPI<S, A>) {
             addonRedux.dispatch = dispatch;
             addonRedux.state = getState();
@@ -70,6 +82,10 @@ export default async function ({addon, console}) {
         if (window.__scratchAddonsRedux) {
             console.warn('ScratchAddons has captured redux.');
             addon.redux = window.__scratchAddonsRedux;
+            if (!reduxReady) {
+                addon.emit('API.redux.initialized');
+                reduxReady = true;
+            }
         } else {
             Object.defineProperty(window, '__REDUX_DEVTOOLS_EXTENSION_COMPOSE__', {
                 get: () => compose,
