@@ -1,11 +1,20 @@
 import console from '../util/console';
 
-interface MatchObject {
+export interface MatchObject {
+    /**
+     * Platform name's alias.
+     */
     platform: string;
+    /**
+     * Specify where on the website the script should take effect. Usually the options are `root`, `editor`, `projects`, etc.
+     */
     scopes?: string[];
 }
 
-export type Match = string | MatchObject;
+/**
+ * The accepted each match element.
+ */
+export type Match = keyof typeof platformInfo | 'all' | MatchObject;
 
 export const platformInfo = {
     ccw: {

@@ -15,6 +15,10 @@ Here are the Scratch-based websites we currently officially support. You can als
 - PenguinMod
 - 
 # Installation
+::: tip
+Charlotte will conflict with the standalone version of Eureka. Therefore, you need to temporarily disable Eureka when installing Charlotte, and use Charlotte's built-in Eureka after the installation is complete.
+:::
+
 1. Since Charlotte is a userscript, You should make sure your browser has Userscript Manager installed. For desktop, ViolentMonkey and Tampermonkey are both ok, but we recommend ViolentMonkey since it has better development experience. For mobile, Via Browser/Kiwi Browser is a good choice.
 2. Install Charlotte by clicking `charlotte.user.js` in GitHub releases.
 3. All done! You can enjoy Charlotte in your favorite editors.

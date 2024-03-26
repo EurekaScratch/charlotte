@@ -13,7 +13,8 @@ async function main () {
     // Specify code entry points
     const entries = [
         rootPath('addons/api/api.ts'),
-        rootPath('src/core/loader/loader.ts')
+        rootPath('src/core/loader/loader.ts'),
+        rootPath('src/core/loader/match.ts')
     ];
     const app = await TypeDoc.Application.bootstrapWithPlugins({
         name: 'Charlotte Documentation',
@@ -100,6 +101,12 @@ async function resolveConfig (jsonDir) {
                         link: getFunctionPath(module.name, sub.name)
                     });
                     break;
+                case 'Variable':
+                    sidebarItem.items.push({
+                        text: `Variable: ${sub.name}`,
+                        link: getVariablePath(module.name, sub.name)
+                    });
+                    break;
             }
         });
         result.push(sidebarItem);
@@ -130,6 +137,10 @@ function getTypePath (moduleName, typeName) {
   
 function getFunctionPath (moduleName, functionName) {
     return path.join('/doc/functions', `${transformModuleName(moduleName)}.${functionName}`).replace(/\\/g, '/');
+}
+
+function getVariablePath (moduleName, variableName) {
+    return path.join('/doc/variables', `${transformModuleName(moduleName)}.${variableName}`).replace(/\\/g, '/');
 }
 
 main().catch(console.error);
