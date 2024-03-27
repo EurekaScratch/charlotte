@@ -43,7 +43,7 @@
     "@rollup/plugin-image": "^3.0.3",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
-    "@unocss/postcss": "^0.58.3",
+    "@unocss/postcss": "^0.58.7",
     "babel-plugin-formatjs": "^10.5.13",
     "babel-preset-solid": "^1.8.16",
     "commitlint-config-gitmoji": "^2.3.1",
