@@ -25,8 +25,8 @@ importers:
         version: 1.8.15
     devDependencies:
       '@babel/plugin-proposal-import-attributes-to-assertions':
-        specifier: ^7.23.3
-        version: 7.23.3(@babel/core@7.24.0)
+        specifier: ^7.24.1
+        version: 7.24.1(@babel/core@7.24.0)
       '@babel/plugin-transform-react-jsx':
         specifier: ^7.23.4
         version: 7.23.4(@babel/core@7.24.0)
@@ -649,15 +649,15 @@ packages:
       '@babel/helper-plugin-utils': 7.24.0
     dev: true
 
-  /@babel/plugin-proposal-import-attributes-to-assertions@7.23.3(@babel/core@7.24.0):
-    resolution: {integrity: sha512-c6V06XjyfECs4++vo+av33b4MFNAdthLEdBR6icbTIgKadiGhWKAmrdpNB5byej+uVrCeNEqwEXMsvnuF7Pqjg==}
+  /@babel/plugin-proposal-import-attributes-to-assertions@7.24.1(@babel/core@7.24.0):
+    resolution: {integrity: sha512-tGzsr+bGlytx4Y+9TZXOZWk4Czefq8gq3/DDY90JMxYitlTCQ4kCDYE4RdSXwnBL6UvW4h0/hX0GTHGfYi2GfQ==}
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.22.0
     dependencies:
       '@babel/core': 7.24.0
       '@babel/helper-plugin-utils': 7.24.0
-      '@babel/plugin-syntax-import-attributes': 7.23.3(@babel/core@7.24.0)
+      '@babel/plugin-syntax-import-attributes': 7.24.1(@babel/core@7.24.0)
     dev: true
 
   /@babel/plugin-proposal-private-property-in-object@7.21.0-placeholder-for-preset-env.2(@babel/core@7.24.0):
@@ -727,6 +727,16 @@ packages:
 
   /@babel/plugin-syntax-import-attributes@7.23.3(@babel/core@7.24.0):
     resolution: {integrity: sha512-pawnE0P9g10xgoP7yKr6CK63K2FMsTE+FZidZO/1PwRdzmAPVs+HS1mAURUsgaoxammTJvULUdIkEK0gOcU2tA==}
+    engines: {node: '>=6.9.0'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      '@babel/core': 7.24.0
+      '@babel/helper-plugin-utils': 7.24.0
+    dev: true
+
+  /@babel/plugin-syntax-import-attributes@7.24.1(@babel/core@7.24.0):
+    resolution: {integrity: sha512-zhQTMH0X2nVLnb04tz+s7AMuasX8U0FnpE+nHTOhSOINjWMnopoZTxtIKsd45n4GQ/HIZLyfIpoul8e2m0DnRA==}
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
