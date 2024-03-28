@@ -15,6 +15,9 @@
 - PenguinMod
 - 
 # 安装
+::: tip
+Charlotte 会与独立版本的 Eureka 冲突。因此，您需要在安装 Charlotte 时暂时禁用或卸载 Eureka，并在安装完成后使用 Charlotte 内置的 Eureka。
+:::
 1. 由于 Charlotte 是一个用户脚本，因此应确保浏览器安装了用户脚本管理器。对于桌面浏览器，ViolentMonkey 和 Tampermonkey 都可以，但我们推荐使用 ViolentMonkey，因为它有更好的开发经验。对于手机，Via Browser/Kiwi Browser 是不错的选择。
 2. 点击 GitHub 发行版中的 `charlotte.user.js` 安装 Charlotte。
 3. 大功告成！你可以在自己喜欢的编辑器中使用 Charlotte。

@@ -1,4 +1,4 @@
-# Addon Structure
+# Creating your first addon
 All addons are stored in Charlotte repo's `addons` directory. If you want to add your addons, You should create your addon directory. A basic file structure like this:
 ```
 addons/

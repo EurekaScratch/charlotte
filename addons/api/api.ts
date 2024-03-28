@@ -1,13 +1,18 @@
 import type { GlobalCtx } from '../../src/core/loader/ctx';
+import type { AddonCtx } from '../../src/core/loader/loader';
 import type { CharlotteRedux } from './redux';
 import { platformInfo } from '../../src/core/loader/match';
 
-export interface CtxWithAPI extends GlobalCtx {
+export interface GlobalCtxWithAPI extends GlobalCtx {
     api: CharlotteAPI,
     instances: {
         vm?: unknown // @todo: add type declaration
         blockly?: unknown // @todo: add type declaration
     }
+}
+
+export interface AddonCtxWithAPI extends AddonCtx {
+    addon: GlobalCtxWithAPI;
 }
 
 export interface CharlotteAPI {

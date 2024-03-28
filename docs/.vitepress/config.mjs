@@ -27,14 +27,18 @@ export default defineConfig({
             '/guide': [
                 { text: 'Introduction', link: '/guide/intro' },
                 { text: 'Installation', link: '/guide/installation' },
-                { text: 'Creating your addon', link: '/guide/develop-addon' },
-                { text: 'Addon Structure', link: '/guide/addon-structure' },
+                { text: 'Develop with Charlotte', link: '/guide/develop-charlotte' },
+                { text: 'Creating your first addon', link: '/guide/creating-addon' },
+                { text: 'Userscripts', link: '/guide/userscripts' },
+                { text: 'Userstyles', link: '/guide/userstyles' },
             ],
             '/zh-cn/guide': [
                 { text: '介绍', link: '/zh-cn/guide/intro' },
                 { text: '安装', link: '/zh-cn/guide/installation' },
-                { text: '创建属于你的插件', link: '/zh-cn/guide/develop-addon' },
-                { text: '插件结构', link: '/zh-cn/guide/addon-structure' },
+                { text: '调试 Charlotte', link: '/zh-cn/guide/develop-charlotte' },
+                { text: '创建你的第一个插件', link: '/zh-cn/guide/creating-addon' },
+                { text: '用户脚本', link: '/zh-cn/guide/userscripts' },
+                { text: '用户样式', link: '/zh-cn/guide/userstyles' },
             ],
             '/addons': [
                 { text: 'API', link: '/addons/api' },

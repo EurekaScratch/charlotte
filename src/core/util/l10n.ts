@@ -26,6 +26,7 @@ export function setup (ctx: GlobalCtx) {
             locale: ctx.getLocale(),
             messages: messages[ctx.getLocale()]  ?? messages.en
         }, cache);
+        ctx.reloadAddons();
     });
 }
 
@@ -36,5 +37,6 @@ const proxiedIntl = new Proxy(intlHost, {
     }
 });
 
+export type { IntlShape };
 export { defineMessage, defineMessages } from '@formatjs/intl';
 export default proxiedIntl as unknown as IntlShape;

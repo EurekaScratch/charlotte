@@ -1,4 +1,6 @@
-export default async function ({ addon, console, intl }) {
+import type { AddonCtxWithAPI } from '../api/api';
+
+export default async function ({ addon, console, intl }: AddonCtxWithAPI) {
     const button = document.createElement('div');
     button.setAttribute('role', 'button');
     button.className = 'charlotteButton';

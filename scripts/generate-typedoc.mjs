@@ -14,6 +14,7 @@ async function main () {
     const entries = [
         rootPath('addons/api/api.ts'),
         rootPath('src/core/loader/loader.ts'),
+        rootPath('src/core/util/l10n.ts'),
         rootPath('src/core/loader/match.ts')
     ];
     const app = await TypeDoc.Application.bootstrapWithPlugins({

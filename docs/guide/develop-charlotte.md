@@ -1,4 +1,4 @@
-# Develop your addons
+# Develop Charlotte
 Before start, You can read [ScratchAddons's Addon Basic](https://scratchaddons.com/docs/develop/getting-started/addon-basics/) to have a basic understanding of addon.   
 To begin with, You need clone Charlotte's repository to your computer and install dependencies:
 ```bash
