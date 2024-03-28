@@ -1,4 +1,4 @@
-# Userstyles
-Userstyles are sets of CSS rules that impact Scratch pages. They can modify the appearance of both the existing UI and elements added by userscripts.   
+# 用户样式
+用户样式（Userstyles）是影响 Scratch 页面样式的 CSS 规则集。它们既可以修改现有用户界面的外观，也可以修改由用户脚本添加的元素。  
 
-Compared to userscripts, userstyles are relatively simple to write. All rules in userstyles will be added to the page as `<style>` when addon is activated and automatically removed when disabled.
+与用户脚本相比，用户样式的编写相对简单。激活插件后，userstyles 中的所有规则都会以`<style>`标签的形式添加到页面中，禁用时则会自动移除。
