@@ -42,7 +42,7 @@
     "@gera2ld/plaid-rollup": "~2.7.0",
     "@rollup/plugin-image": "^3.0.3",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
-    "@typescript-eslint/parser": "^7.2.0",
+    "@typescript-eslint/parser": "^7.4.0",
     "@unocss/postcss": "^0.58.8",
     "babel-plugin-formatjs": "^10.5.13",
     "babel-preset-solid": "^1.8.16",
