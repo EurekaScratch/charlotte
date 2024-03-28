@@ -58,8 +58,8 @@ importers:
         specifier: ^0.58.8
         version: 0.58.8(postcss@8.4.38)
       babel-plugin-formatjs:
-        specifier: ^10.5.13
-        version: 10.5.13
+        specifier: ^10.5.14
+        version: 10.5.14
       babel-preset-solid:
         specifier: ^1.8.16
         version: 1.8.16(@babel/core@7.24.0)
@@ -2141,7 +2141,7 @@ packages:
       chalk: 4.1.2
       json-stable-stringify: 1.1.1
       tslib: 2.6.2
-      typescript: 5.3.3
+      typescript: 5.4.2
     dev: true
 
   /@gera2ld/plaid-rollup@2.7.0(@babel/core@7.24.0)(@gera2ld/plaid@2.7.0)(postcss@8.4.38):
@@ -4114,8 +4114,8 @@ packages:
       webpack: 5.90.3(webpack-cli@5.1.4)
     dev: true
 
-  /babel-plugin-formatjs@10.5.13:
-    resolution: {integrity: sha512-0dtMhoa6q0P5lUHBphLd8/y+CRlh5IG3Rq+Wk64kOEDwUVZF8xq1qMSjC3iw1wH4tmP2qTzBL+Bz1xEjyBd/ew==}
+  /babel-plugin-formatjs@10.5.14:
+    resolution: {integrity: sha512-F++4Txa2bxrjbvspLxIXBDwcbKOftUvGgBDlz0hGe/fp7eXSPBJcu49xWj0/5VyMgSad4gKmBzWE5bfC27x19Q==}
     dependencies:
       '@babel/core': 7.24.0
       '@babel/helper-plugin-utils': 7.24.0
