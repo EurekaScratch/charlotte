@@ -36,7 +36,7 @@
     "@babel/plugin-proposal-import-attributes-to-assertions": "^7.24.1",
     "@babel/plugin-transform-react-jsx": "^7.23.4",
     "@babel/preset-typescript": "^7.23.3",
-    "@commitlint/cli": "^19.2.0",
+    "@commitlint/cli": "^19.2.1",
     "@formatjs/cli": "^6.2.7",
     "@gera2ld/plaid": "~2.7.0",
     "@gera2ld/plaid-rollup": "~2.7.0",
