@@ -58,8 +58,8 @@ importers:
         specifier: ^7.4.0
         version: 7.4.0(eslint@8.57.0)(typescript@5.3.3)
       '@unocss/postcss':
-        specifier: ^0.58.8
-        version: 0.58.8(postcss@8.4.38)
+        specifier: ^0.59.2
+        version: 0.59.2(postcss@8.4.38)
       babel-plugin-formatjs:
         specifier: ^10.5.14
         version: 10.5.14
@@ -3306,12 +3306,24 @@ packages:
       unconfig: 0.3.11
     dev: true
 
+  /@unocss/config@0.59.2:
+    resolution: {integrity: sha512-KknR9kcid1w/8IuujZ8msE5pU930GD5e2v84H9Ftcv308yfuj+j/0zQ/ORtG8qMx+97p7uFy3xspzI2yoRYRpQ==}
+    engines: {node: '>=14'}
+    dependencies:
+      '@unocss/core': 0.59.2
+      unconfig: 0.3.12
+    dev: true
+
   /@unocss/core@0.58.6:
     resolution: {integrity: sha512-m87iuENM/PLqLKnfE2mJbpfzj7NQ99LP2go0r+x5X4kXKppyGRJNQg6RIW3AqTS22jup1YPgd62UNXvvRtHtww==}
     dev: true
 
   /@unocss/core@0.58.8:
     resolution: {integrity: sha512-R3KuNTzF6G+bb2Qqg4LNLTWHh4TGU8iQJ4KOlpWHrPKAhDSCZ3XY9lSXoepCPwv+JcGEwA97Msa3zZ5p+QDoFg==}
+    dev: true
+
+  /@unocss/core@0.59.2:
+    resolution: {integrity: sha512-0NtauY7v5bG0UIcvIABWnD2ssD5b9UcFkyw4iRIsT9NvR0e7QqGIOvZEg5XN0j25o50GtxlotMmTAAiaazHZ0Q==}
     dev: true
 
   /@unocss/extractor-arbitrary-variants@0.58.6:
@@ -3374,18 +3386,18 @@ packages:
       postcss: 8.4.35
     dev: true
 
-  /@unocss/postcss@0.58.8(postcss@8.4.38):
-    resolution: {integrity: sha512-nI8Cbvc7/IFMGVeFXAHEom5X76gb0dSylBGvlVtWakq27nBwlxG4c3+58dVWg7Nyqvn1mC/sOMGpqjfk8FdJcQ==}
+  /@unocss/postcss@0.59.2(postcss@8.4.38):
+    resolution: {integrity: sha512-9pRixhnL9B1sdhzY7zlhnBXc8nVNwDCT4nMQRgSdWNvT76dImVv1N3609veIrCfLEHQJi52Juo//trSNLjUzZQ==}
     engines: {node: '>=14'}
     peerDependencies:
       postcss: ^8.4.21
     dependencies:
-      '@unocss/config': 0.58.8
-      '@unocss/core': 0.58.8
-      '@unocss/rule-utils': 0.58.8
+      '@unocss/config': 0.59.2
+      '@unocss/core': 0.59.2
+      '@unocss/rule-utils': 0.59.2
       css-tree: 2.3.1
       fast-glob: 3.3.2
-      magic-string: 0.30.8
+      magic-string: 0.30.9
       postcss: 8.4.38
     dev: true
 
@@ -3458,7 +3470,7 @@ packages:
     resolution: {integrity: sha512-qbVDeyKzExFY/YeoIbMw/lu8PXEGJzSHrFXRumNHX5lvTu8ggAjH6p9xyvYa/YnuNU0+pFKuYxG8LNK2F8f1EQ==}
     engines: {node: '>=14'}
     dependencies:
-      '@unocss/core': 0.58.6
+      '@unocss/core': 0.58.8
       magic-string: 0.30.8
     dev: true
 
@@ -3468,6 +3480,14 @@ packages:
     dependencies:
       '@unocss/core': 0.58.8
       magic-string: 0.30.8
+    dev: true
+
+  /@unocss/rule-utils@0.59.2:
+    resolution: {integrity: sha512-2F1Q1pCfeG65GxPEhGQDZXXoZk38fX4o5LOYf35XkknhjQmkaeK76szVYXLDoyK30n9EiwXqoc0MdKrGjeCMUA==}
+    engines: {node: '>=14'}
+    dependencies:
+      '@unocss/core': 0.59.2
+      magic-string: 0.30.9
     dev: true
 
   /@unocss/scope@0.58.6:
@@ -6803,6 +6823,13 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
+  /magic-string@0.30.9:
+    resolution: {integrity: sha512-S1+hd+dIrC8EZqKyT9DstTH/0Z+f76kmmvZnkfQVmOpDEF9iVgdYif3Q/pIWHmCoo59bQVGW0kVL3e2nl+9+Sw==}
+    engines: {node: '>=12'}
+    dependencies:
+      '@jridgewell/sourcemap-codec': 1.4.15
+    dev: true
+
   /map-obj@1.0.1:
     resolution: {integrity: sha512-7N/q3lyZ+LVCp7PzuxrJr4KMbBE2hW7BT7YNia330OFxIf4d3r5zVpicP2650l7CPN6RM9zOJRl3NGpqSiw3Eg==}
     engines: {node: '>=0.10.0'}
@@ -9106,6 +9133,15 @@ packages:
 
   /unconfig@0.3.11:
     resolution: {integrity: sha512-bV/nqePAKv71v3HdVUn6UefbsDKQWRX+bJIkiSm0+twIds6WiD2bJLWWT3i214+J/B4edufZpG2w7Y63Vbwxow==}
+    dependencies:
+      '@antfu/utils': 0.7.7
+      defu: 6.1.4
+      jiti: 1.21.0
+      mlly: 1.6.1
+    dev: true
+
+  /unconfig@0.3.12:
+    resolution: {integrity: sha512-oDtfWDC0TMYFuwdt7E7CaqYZGqq1wAiC12PRTFe/93IkgNi+wVlF/LCjcD/bgNkGoopb0RsU363Ge3YXy7NGSw==}
     dependencies:
       '@antfu/utils': 0.7.7
       defu: 6.1.4
