@@ -1,3 +1,6 @@
 [submodule "addons/eureka/eureka"]
 	path = addons/eureka/eureka
 	url = https://github.com/EurekaScratch/eureka
+[submodule "addons/hyren/hyren"]
+	path = addons/hyren/hyren
+	url = https://github.com/FurryR/hyren

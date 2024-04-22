@@ -1,0 +1,22 @@
+{
+  "name": "Hyren",
+  "description": "Use Turbowarp features everywhere",
+  "tags": ["editor", "theme", "projectPlayer"],
+  "enabledByDefault": false,
+  "userscripts": [
+      {
+          "url": "userscript",
+          "matches": ["all"],
+          "runAtComplete": false
+      }
+  ],
+  "credits": [
+      {
+          "name": "FurryR",
+          "link": "https://github.com/FurryR/"
+      }
+  ],
+  "dynamicEnable": false,
+  "dynamicDisable": false,
+  "required": ["api"]
+}

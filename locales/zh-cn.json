@@ -59,6 +59,8 @@
   "@editor-extra-keys/shiftKeys": "显示 Shift 键",
   "@eureka/description": "通用 Scratch 扩展加载器",
   "@eureka/name": "Eureka",
+  "@hyren/description": "在任何地方使用 Turbowarp 特性",
+  "@hyren/name": "Hyren",
   "@middle-click-popup/description": "用鼠标中键或 Shift 键单击代码区，或按 Ctrl+Space 键弹出代码块搜索窗口。键入积木名称（或部分名称）并拖入代码区，即可将其添加到项目中。可以使用箭头键和回车键浏览菜单，并支持使用 Tab 自动补全。要防止菜单关闭，可在拖出积木时按住 Shift 键。",
   "@middle-click-popup/name": "文本转积木",
   "@middle-click-popup/popup_max_height": "面板最大高度",

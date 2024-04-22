@@ -22,6 +22,7 @@
     "addons/**/*"
   ],
   "exclude": [
-    "addons/eureka/eureka/**/*"
+    "addons/eureka/eureka/**/*",
+    "addons/hyren/hyren/**/*"
   ],
 }
