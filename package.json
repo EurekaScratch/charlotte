@@ -12,7 +12,7 @@
   "scripts": {
     "prepare": "husky install",
     "eureka:init": "cd ./addons/eureka/eureka && pnpm i && pnpm run build",
-    "hyren:init": "cd ./addons/hyren/hyren && git submodule update --init && cd scratch-render && npm ci && cd .. && npm ci && npm run build:injector",
+    "hyren:init": "cd ./addons/hyren/hyren && git submodule update --init && cd scratch-render && pnpm i && cd .. && pnpm i && pnpm run build:injector",
     "l10n:extract": "formatjs extract 'src/**/*.ts*' 'addons/*/*.ts*' --out-file locales/en.json --ignore='**/*.d.ts' --format simple",
     "typedoc": "node ./scripts/generate-typedoc.mjs",
     "docs:dev": "pnpm run typedoc && vitepress dev docs",
