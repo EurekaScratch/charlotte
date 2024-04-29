@@ -80,6 +80,12 @@ export const platformInfo = {
     },
     pm: {
         root: /https:\/\/studio\.penguinmod\.com\/*/
+    },
+    electramod: {
+        root: /https:\/\/electramod\.vercel\.app\/*/
+    },
+    xplab: {
+        root: /https:\/\/xplab\.vercel\.app\/*/
     }
 } as const;
 
