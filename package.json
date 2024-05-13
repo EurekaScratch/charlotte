@@ -45,7 +45,7 @@
     "@turbowarp/types": "^0.0.12",
     "@typescript-eslint/eslint-plugin": "^7.4.0",
     "@typescript-eslint/parser": "^7.4.0",
-    "@unocss/postcss": "^0.58.8",
+    "@unocss/postcss": "^0.60.2",
     "babel-plugin-formatjs": "^10.5.14",
     "babel-preset-solid": "^1.8.16",
     "commitlint-config-gitmoji": "^2.3.1",
