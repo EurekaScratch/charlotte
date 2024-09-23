@@ -58,8 +58,8 @@ importers:
         specifier: ^7.4.0
         version: 7.4.0(eslint@8.57.0)(typescript@5.3.3)
       '@unocss/postcss':
-        specifier: ^0.58.8
-        version: 0.58.8(postcss@8.4.38)
+        specifier: ^0.61.0
+        version: 0.61.0(postcss@8.4.38)
       babel-plugin-formatjs:
         specifier: ^10.5.14
         version: 10.5.14
@@ -3775,18 +3775,18 @@ packages:
       postcss: 8.4.35
     dev: true
 
-  /@unocss/postcss@0.58.8(postcss@8.4.38):
-    resolution: {integrity: sha512-nI8Cbvc7/IFMGVeFXAHEom5X76gb0dSylBGvlVtWakq27nBwlxG4c3+58dVWg7Nyqvn1mC/sOMGpqjfk8FdJcQ==}
+  /@unocss/postcss@0.61.0(postcss@8.4.38):
+    resolution: {integrity: sha512-0ZHUeLYu057xL1vXg2coV62ly6zaCgYdA/oHKCMaU9KT0TI49+DE73GouHypRNM5YXfuUPfXhPGGUuFWkAbI1A==}
     engines: {node: '>=14'}
     peerDependencies:
       postcss: ^8.4.21
     dependencies:
-      '@unocss/config': 0.58.8
-      '@unocss/core': 0.58.8
-      '@unocss/rule-utils': 0.58.8
+      '@unocss/config': 0.61.0
+      '@unocss/core': 0.61.0
+      '@unocss/rule-utils': 0.61.0
       css-tree: 2.3.1
       fast-glob: 3.3.2
-      magic-string: 0.30.8
+      magic-string: 0.30.10
       postcss: 8.4.38
     dev: true
 
